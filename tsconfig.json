@@ -12,5 +12,6 @@
     "baseUrl": "./",
     "incremental": true
   },
-  "exclude": ["node_modules", ".nuxt", ".nest", "server"]
+  "include": ["server/**/*", "client/**/*"],
+  "exclude": ["node_modules", ".nuxt", ".nest"]
 }
