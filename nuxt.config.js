@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import bootstrap from './.nest/nest.js'
+import bootstrap from './.nest/main.js'
 const isDev = process.env.NODE_ENV === 'development'
 const config = async () => ({
   srcDir: 'client/',
@@ -23,6 +23,7 @@ const config = async () => ({
   serverMiddleware: isDev ? [] : [{ path: '/api', handler: await bootstrap() }],
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'reset.css',
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/styles/page-transition.css',
     '@/assets/styles/base.scss',
@@ -63,7 +64,7 @@ const config = async () => ({
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/dotenv',
+    ['@nuxtjs/dotenv', { filename: './.env' }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

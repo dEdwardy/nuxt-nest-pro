@@ -10,6 +10,7 @@
     "sourceMap": true,
     "outDir": "./.nest",
     "baseUrl": "./",
+    "strict": false,
     "incremental": true
   },
   "include": ["server/**/*", "client/**/*"],
