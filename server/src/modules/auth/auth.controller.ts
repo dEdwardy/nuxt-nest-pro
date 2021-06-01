@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { AuthDto, TokenDto } from './auth.dto';
 import { AuthService } from './auth.service';
 
@@ -17,6 +18,7 @@ export class AuthController {
     return await this.authService.validateUser(username,password)
   }
   @Get('test')
+  @Throttle(1,1)
   @UseGuards(AuthGuard())
   authTest() {
     return {
