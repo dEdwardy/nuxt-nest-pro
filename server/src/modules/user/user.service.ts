@@ -51,4 +51,14 @@ export class UserService {
   async findAllUser() {
     return this.userReposity.findAndCount()
   }
+  async findOneByUsername(username,password = false) {
+    // return this.userReposity.findOne({ username})
+    const queryBuilder = await this.userReposity.createQueryBuilder('user')
+    queryBuilder.where('user.username = :username',{ username })
+    if(password) {
+      queryBuilder.addSelect('user.password')
+    }
+    const entity = await queryBuilder.getOne()
+    return entity
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get,Put, HttpCode, HttpStatus, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get,Put, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CategoryService } from '../category/category.service';
 import { TagDto } from './tag.dto';
@@ -12,20 +12,14 @@ export class TagController {
     private readonly categoryService:CategoryService
   ) {
   }
-  readonly logger = new Logger()
-
   @Post()
   @HttpCode(HttpStatus.OK)
   async addTag(@Body() data:TagDto ){
     const { name,category } = data
     const isExist = await this.tagService.findOne({name })
-    this.logger.debug(isExist)
     if(isExist)return { error: '当前标签已存在' }
     // if(!category || )
-    this.logger.debug(category)
     const entity = await this.categoryService.findOne(category)
-    this.logger.debug(JSON.stringify(entity))
-    console.log(entity)
     if(!entity){
       return {
         error:'不存在当前类目'

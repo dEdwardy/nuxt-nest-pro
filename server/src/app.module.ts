@@ -8,6 +8,7 @@ import { TagModule } from './modules/tag/tag.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'
 import { CommentModule } from './modules/comment/comment.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { CommentModule } from './modules/comment/comment.module';
     CategoryModule,
     TagModule,
     CommentModule,
+    AuthModule,
     ],
   controllers: [AppController],
   providers: [AppService],
