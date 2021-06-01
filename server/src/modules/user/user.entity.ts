@@ -2,6 +2,9 @@ import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { Exclude } from 'class-transformer'
 import { Article } from '../article/article.entity';
 import { Comment } from '../comment/comment.entity';
+import { UserState } from '../../core/interfaces/enums/user-state.enum';
+
+
 
 @Entity()
 export class User {
@@ -21,6 +24,9 @@ export class User {
 
   @Column({ comment: '邮箱', length: 50, unique: true, select: false })
   email: string;
+
+  @Column({ comment:'状态',default: UserState.ENABLED })
+  status:UserState;
 
   @Column({ length: 50 })
   company: string;
