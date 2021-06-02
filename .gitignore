@@ -67,6 +67,8 @@ typings/
 
 # nuxt.js build output
 .nuxt
+.nuxt-ssr
+.nuxt-csr
 
 .nest
 # Nuxt generate

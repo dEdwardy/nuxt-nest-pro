@@ -5,23 +5,38 @@
       <IconPicker v-model="a" />
       {{ $t('links') }}
     </div>
+    <div v-for="(item, index) of list" :key="index" style="display: flex">
+      <div>
+        {{ item.username }}
+      </div>
+      <div>
+        {{ item.company }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { getUserList } from '../api/user'
 export default {
+  async asyncData() {
+    try {
+      console.error('async data')
+      const { data } = await getUserList()
+      console.error(data + '22222')
+      return data
+    } catch (error) {
+      console.error(error)
+    }
+  },
   data() {
     return {
       a: '',
+      list: [],
     }
   },
   mounted() {
-    // this.$API.common
-    //   .login({ a: 1, b: 2 })
-    //   .then((res) => {
-    //     console.log(res)
-    //   })
-    //   .catch((err) => console.error(err))
+    console.error(process.env.NUXT_ENV)
     this.$store.commit('SET_USERNAME', '1234')
   },
 }

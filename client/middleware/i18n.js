@@ -12,11 +12,15 @@ export default function ({
   if (isHMR) return
   // Get locale from params
   const locale = params.lang || defaultLocale
-  if (!store.state.locales.includes(locale)) {
+  console.error(store)
+  console.error(locale)
+  if (store.state.locales && !store.state.locales.includes(locale)) {
     return error({ message: 'This page could not be found.', statusCode: 404 })
   }
   // Set locale
   if (!store.state.locale) {
+    const locales = ['zh-CN', 'en-US']
+    store.commit('SET_LOCALES', locales)
     store.commit('SET_LANG', locale)
   }
 

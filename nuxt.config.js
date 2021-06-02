@@ -1,10 +1,16 @@
 import { resolve } from 'path'
-import bootstrap from './.nest/main.js'
-const isDev = process.env.NODE_ENV === 'development'
-const config = async () => ({
+// import bootstrap from './.nest/main.js'
+// const isDev = process.env.NODE_ENV === 'development'
+
+const config = () => ({
   srcDir: 'client/',
+  buildDir: process.env.NUXT_ENV === 'ssr' ? '.nuxt-ssr' : '.nuxt-csr',
+  ssr: process.env.NUXT_ENV,
   alias: {
     '@': resolve(__dirname, './client'),
+  },
+  server: {
+    port: 8080,
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -20,7 +26,10 @@ const config = async () => ({
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  serverMiddleware: isDev ? [] : [{ path: '/api', handler: await bootstrap() }],
+  // serverMiddleware:
+  //   process.env.NUXT_ENV === 'ssr'
+  //     ? [{ path: '/api', handler: await bootstrap() }]
+  //     : [],
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'reset.css',
@@ -37,8 +46,8 @@ const config = async () => ({
     '@/plugins/i18n', // 国际化
     '@/plugins/svg-icon', // 注册 svg-icons插件文件
     '@/plugins/element-ui',
-    '@/plugins/axios',
-    '@/plugins/api-plugin',
+    // '@/plugins/axios',
+    // '@/plugins/api-plugin',
     // vuex 持久化
     { src: '@/plugins/vuex-persisted', ssr: false },
     { src: '@/plugins/nuxt-quill-plugin.js', ssr: false }, // 注册vue quill editor ssr
@@ -63,12 +72,12 @@ const config = async () => ({
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    ['@nuxtjs/dotenv', { filename: './.env' }],
+    // '@nuxtjs/axios',
+    ['@nuxtjs/dotenv', { filename: '../.env' }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  // axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

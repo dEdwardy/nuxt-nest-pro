@@ -13,4 +13,7 @@ export const mutations = {
       state.locale = locale
     }
   },
+  SET_LOCALES(state, locales) {
+    state.locales = locales
+  },
 }
