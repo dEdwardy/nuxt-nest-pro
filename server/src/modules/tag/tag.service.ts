@@ -34,6 +34,10 @@ export class TagService {
     return this.tagRepository.findOne(options)
   }
 
+  find(options = {}) {
+    return this.tagRepository.find()
+  }
+
   deleteOne (id) {
     return this.tagRepository.delete({id});
   }

@@ -30,7 +30,7 @@ export class CategoryService {
     return this.categoryRepository.findAndCount()
   }
   findAll() {
-    return this.categoryRepository.find()
+    return this.categoryRepository.find({ relations:['tag'] })
   }
   findOne(id) {
     return this.categoryRepository.findOne(id)

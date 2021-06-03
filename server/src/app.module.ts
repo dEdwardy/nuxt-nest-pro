@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module'
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './core/interceptors/transform.interceptor'
+import { FileModule } from './modules/file/file.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { TransformInterceptor } from './core/interceptors/transform.interceptor'
     TagModule,
     CommentModule,
     AuthModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [

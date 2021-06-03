@@ -10,6 +10,7 @@ import { TagService } from './tag.service';
     TypeOrmModule.forFeature([Tag]),
     CategoryModule
   ],
+  exports:[TagService],
   controllers: [TagController],
   providers: [TagService]
 })

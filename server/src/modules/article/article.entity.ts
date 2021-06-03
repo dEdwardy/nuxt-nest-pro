@@ -4,6 +4,7 @@ import { User } from '../user/user.entity';
 import { Category } from '../category/category.entity';
 import { Tag } from '../tag/tag.entity';
 import { Comment } from '../comment/comment.entity';
+import { ArticleState } from 'server/src/core/interfaces/enums/article-state.enum';
 
 @Entity()
 export class Article {
@@ -20,7 +21,7 @@ export class Article {
   brief_content: string;
 
   @Column({ comment: '状态'})
-  state: number;
+  state: ArticleState;
 
   @ManyToOne(type => User, user =>user.article)
   author:User;
@@ -28,7 +29,7 @@ export class Article {
   @ManyToMany(type => User, user => user.like)
   liked:User;
 
-  @Column()
+  @Column({ default:0})
   read_num:number;
 
   @CreateDateColumn({ comment: '创建日期' })

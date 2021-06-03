@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CategoryDto } from './category.dto';
 import { CategoryService } from './category.service';
@@ -11,6 +11,7 @@ export class CategoryController {
   ){}
 
   @Post()
+  @HttpCode(HttpStatus.OK)
   addCategory(@Body() data:CategoryDto){
     return this.categoryService.createCategory(data)
   }
