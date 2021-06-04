@@ -1,5 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ArticleState } from '../../core/interfaces/enums/article-state.enum'
+import { UserState } from '../../core/interfaces/enums/user-state.enum'
 import { CategoryService } from '../category/category.service'
 import { UpdateUserDto, UserDto } from './user.dto'
 import { UserService } from './user.service'
@@ -38,8 +40,17 @@ export class UserController {
   @ApiOperation({ description: '获取字典' })
   async getDictList() {
     const category = await this.ctegoryService.findAll()
+    const articleState= {}
+    articleState[ArticleState.DRAFT] =  'draft'
+    articleState[ArticleState.PUBLISHED] = 'published'
+    articleState[ArticleState.HIDDEN] = 'hidden'
+    const userState = {}
+    userState[UserState.ENABLED] =  'enable'
+    userState[UserState.DISABLED] =  'disabled'
     return {
       category,
+      articleState,
+      userState
     }
   }
 }

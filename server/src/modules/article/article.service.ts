@@ -12,16 +12,16 @@ export class ArticleService {
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
     private readonly tagService: TagService
-  ) {}
+  ) { }
   //保存草稿
-  async saveArticle(article: ArticleDto) {
+  async saveArticle (article: ArticleDto) {
     if (article.state !== ArticleState.DRAFT) article.state = ArticleState.DRAFT
     const tag = await this.tagService.find(article.tag)
     article.tag = tag
     return this.articleRepository.save(article)
   }
   //正式发布
-  async publishArticle(article) {
+  async publishArticle (article) {
     const { id, title, content, brief_content, category, tag } = article
     const tagEntity = await this.tagService.find(tag)
     if (id) {
@@ -41,7 +41,10 @@ export class ArticleService {
       return this.articleRepository.save(article)
     }
   }
-  queryAndCount(){
-    return this.articleRepository.findAndCount({  relations:['tag','category'] })
+  queryAndCount () {
+    return this.articleRepository.findAndCount({ relations: ['tag', 'category'] })
+  }
+  getOneById (id: string) {
+    return this.articleRepository.findOne(id,{ relations: ['tag', 'category']})
   }
 }
