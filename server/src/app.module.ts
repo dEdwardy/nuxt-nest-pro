@@ -13,6 +13,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './core/interceptors/transform.interceptor'
 import { FileModule } from './modules/file/file.module';
+import { StatusMonitorModule } from 'nest-status-monitor'
+import MonitorConfig from './config/status-monitor'
 
 @Module({
   imports: [
@@ -30,10 +32,13 @@ import { FileModule } from './modules/file/file.module';
       synchronize: true,
       debug: false,
     }),
-    ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 300,
-    }),
+    // api 节流
+    // ThrottlerModule.forRoot({
+    //   ttl: 60,
+    //   limit: 300,
+    // }),
+    //服务监控模块
+    StatusMonitorModule.setUp(MonitorConfig),
     UserModule,
     ArticleModule,
     CategoryModule,
@@ -49,10 +54,10 @@ import { FileModule } from './modules/file/file.module';
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
     },
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: ThrottlerGuard,
+    // },
   ],
 })
 export class AppModule {}

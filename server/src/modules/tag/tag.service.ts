@@ -34,8 +34,11 @@ export class TagService {
     return this.tagRepository.findOne(options)
   }
 
-  find(options = {}) {
+  findAll() {
     return this.tagRepository.find()
+  }
+  findByIds(ids = []) {
+    return this.tagRepository.findByIds(ids)
   }
 
   deleteOne (id) {

@@ -3,6 +3,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { ArticleState } from '../../core/interfaces/enums/article-state.enum'
 import { UserState } from '../../core/interfaces/enums/user-state.enum'
 import { CategoryService } from '../category/category.service'
+import { TagService } from '../tag/tag.service'
 import { UpdateUserDto, UserDto } from './user.dto'
 import { UserService } from './user.service'
 
@@ -11,7 +12,8 @@ import { UserService } from './user.service'
 export class UserController {
   constructor(
     public userService: UserService,
-    public ctegoryService: CategoryService
+    public categoryService: CategoryService,
+    public tagService: TagService
   ) {}
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -39,18 +41,20 @@ export class UserController {
   @Get('/dict')
   @ApiOperation({ description: '获取字典' })
   async getDictList() {
-    const category = await this.ctegoryService.findAll()
+    const category = await this.categoryService.findAll()
+    const tag = await this.tagService.findAll()
     const articleState= {}
+    const userState = {}
     articleState[ArticleState.DRAFT] =  'draft'
     articleState[ArticleState.PUBLISHED] = 'published'
     articleState[ArticleState.HIDDEN] = 'hidden'
-    const userState = {}
     userState[UserState.ENABLED] =  'enable'
     userState[UserState.DISABLED] =  'disabled'
     return {
       category,
       articleState,
-      userState
+      userState,
+      tag
     }
   }
 }

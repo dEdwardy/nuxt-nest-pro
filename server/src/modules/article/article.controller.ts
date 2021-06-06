@@ -1,6 +1,8 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import { Console } from 'console';
 import { ArticleState } from 'server/src/core/interfaces/enums/article-state.enum';
+import { QueryDto, SortEnum } from './article.dto';
 import { ArticleService } from './article.service';
 
 @Controller('article')
@@ -30,9 +32,13 @@ export class ArticleController {
     return this.articleService.getOneById(id)
   }
 
-  @Get()
-  async getAllAndCount(){
-    const [list,total] = await this.articleService.queryAndCount()
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  async getAllAndCount(@Body() options:QueryDto){
+    if(!options?.sortBy?.sortKey){
+      options = { sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },category:options?.category }
+    }
+    const [list,total] = await this.articleService.queryAndCount(options)
     return {
       list,
       total

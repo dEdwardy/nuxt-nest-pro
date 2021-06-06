@@ -1,4 +1,11 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, HttpStatus, HttpCode } from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+  HttpStatus,
+  HttpCode,
+} from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
@@ -12,13 +19,16 @@ export class TransformInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const res = context.switchToHttp().getResponse()
     const req = context.switchToHttp().getRequest()
-    return next
-      .handle()
-      .pipe(
-        map((data) => ({
-          data: data ?? null,
-          statusCode: data?.statusCode ?? 200,
-        }))
-      )
+    let excludePath = ['/status']
+    console.error(req.url)
+    if (excludePath.includes(req.url)) {
+      return next.handle()
+    }
+    return next.handle().pipe(
+      map((data) => ({
+        data: data ?? null,
+        statusCode: data?.statusCode ?? 200,
+      }))
+    )
   }
 }

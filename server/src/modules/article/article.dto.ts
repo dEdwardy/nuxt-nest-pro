@@ -11,3 +11,15 @@ export class ArticleDto {
   author:User
   tag:Tag[]
 }
+export enum SortEnum {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+interface SortBy< sortKey = 'created',sortValue = SortEnum.DESC> {
+  sortKey:string ;
+  sortValue:SortEnum;
+}
+export class QueryDto {
+  sortBy?:SortBy
+  category?:string[]
+}

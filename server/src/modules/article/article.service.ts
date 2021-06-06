@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Console } from 'console'
 import { ArticleState } from 'server/src/core/interfaces/enums/article-state.enum'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
 import { TagService } from '../tag/tag.service'
-import { ArticleDto } from './article.dto'
+import { ArticleDto, QueryDto, SortEnum } from './article.dto'
 import { Article } from './article.entity'
 
 @Injectable()
@@ -12,18 +13,20 @@ export class ArticleService {
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
     private readonly tagService: TagService
-  ) { }
+  ) {}
   //保存草稿
-  async saveArticle (article: ArticleDto) {
+  async saveArticle(article: ArticleDto) {
     if (article.state !== ArticleState.DRAFT) article.state = ArticleState.DRAFT
-    const tag = await this.tagService.find(article.tag)
+    const tag = await this.tagService.findByIds(article.tag)
     article.tag = tag
     return this.articleRepository.save(article)
   }
   //正式发布
-  async publishArticle (article) {
+  async publishArticle(article) {
     const { id, title, content, brief_content, category, tag } = article
-    const tagEntity = await this.tagService.find(tag)
+    const tagEntity = await this.tagService.findByIds(tag)
+    console.log(tag)
+    console.log(tagEntity)
     if (id) {
       //update state
       // return this.articleRepository.update({ state: ArticleState.PUBLISHED},{ id })
@@ -41,10 +44,30 @@ export class ArticleService {
       return this.articleRepository.save(article)
     }
   }
-  queryAndCount () {
-    return this.articleRepository.findAndCount({ relations: ['tag', 'category'] })
+  queryAndCount(
+    query: QueryDto = {
+      sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },
+    }
+  ) {
+    const {
+      sortBy: { sortKey , sortValue },
+      category,
+    } = query
+    console.log(sortKey, sortValue,category)
+    return category
+      ? this.articleRepository.findAndCount({
+          relations: ['tag', 'category'],
+          where: { category: { id: In(category) } },
+          order: { [sortKey]: sortValue },
+        })
+      : this.articleRepository.findAndCount({
+          relations: ['tag', 'category'],
+          order: { [sortKey]: sortValue },
+        })
   }
-  getOneById (id: string) {
-    return this.articleRepository.findOne(id,{ relations: ['tag', 'category']})
+  getOneById(id: string) {
+    return this.articleRepository.findOne(id, {
+      relations: ['tag', 'category'],
+    })
   }
 }
