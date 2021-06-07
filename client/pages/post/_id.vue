@@ -21,7 +21,11 @@
         {{ post.title }}
       </div>
       <div class="post-body">
-        <div v-html="post.content"></div>
+        <!-- <div v-html="post.content"></div> -->
+        <div class="ql-container ql-snow preview">
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div class="ql-editor" v-html="post.content"></div>
+        </div>
       </div>
     </div>
     <aside class="aside">aside</aside>
@@ -35,7 +39,6 @@ export default {
   async asyncData({ params: { id } }) {
     try {
       const { data } = await getArtilceById(id)
-      console.log(data)
       return {
         post: data,
       }

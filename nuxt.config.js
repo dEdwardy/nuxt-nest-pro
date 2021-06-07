@@ -32,6 +32,7 @@ const config = () => ({
   //     : [],
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/common/index.scss',
     'reset.css',
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/styles/page-transition.css',
@@ -73,6 +74,7 @@ const config = () => ({
     // https://go.nuxtjs.dev/axios
     // '@nuxtjs/axios',
     ['@nuxtjs/dotenv', { filename: '../.env' }],
+    'nuxt-winston-log',
   ],
 
   // axios: {},

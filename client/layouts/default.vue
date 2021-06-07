@@ -6,7 +6,6 @@
         <Nuxt />
       </main>
     </div>
-    <el-backtop target=".default-layout .j-header"></el-backtop>
   </div>
 </template>
 

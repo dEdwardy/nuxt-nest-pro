@@ -1,0 +1,56 @@
+.flex {
+  display: flex;
+
+  &.justify-between {
+    justify-content: space-between;
+  }
+
+  &.justify-around {
+    justify-content: space-around;
+  }
+
+  &.justify-center {
+    justify-content: center;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-end {
+    align-items: flex-end;
+  }
+  &.align-center {
+    align-items: center;
+  }
+
+  &.justify-end {
+    justify-content: flex-end;
+  }
+
+  &.flex-column {
+    flex-direction: column;
+  }
+}
+.login-modal .el-dialog__body {
+  padding: 24px 24px 0 !important;
+}
+.login-modal .el-dialog__footer {
+  margin-top:-18px;
+  padding:0 24px 24px !important;
+}
+.login-modal .icon-wrapper{
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #f4f8fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .icon{
+    width:23px;
+    height:23px;
+  }
+}
+

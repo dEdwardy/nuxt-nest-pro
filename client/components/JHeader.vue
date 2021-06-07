@@ -51,26 +51,68 @@
       </nav>
     </div>
     <el-dialog
-      title="提示"
+      custom-class="login-modal"
       :visible.sync="loginVisible"
       :close-on-click-modal="false"
       append-to-body
-      width="30%"
+      width="318px"
     >
-      <el-form>
+      <div slot="title">
+        <span style="font-size: 16px; font-weight: 800">帐号密码登录</span>
+      </div>
+      <el-form size="small">
         <el-form-item>
-          <el-input></el-input>
+          <el-input
+            v-model="loginForm.username"
+            placeholder="邮箱/手机号"
+          ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input></el-input>
+          <el-input
+            v-model="loginForm.password"
+            placeholder="请输入密码"
+            type="password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            style="width: 100%"
+            type="primary"
+            :loading="loginLoading"
+            @click.stop="login"
+            >登录</el-button
+          >
         </el-form-item>
       </el-form>
-      <span slot="footer" style="padding: 0">
-        <el-button @click="loginVisible = false">取 消</el-button>
-        <el-button type="primary" @click="loginVisible = false"
-          >确 定</el-button
+      <div slot="footer" style="padding: 0">
+        <div class="flex justify-between align-center">
+          <el-button type="text">手机登录</el-button>
+          <el-button type="text">忘记密码</el-button>
+        </div>
+        <div class="flex justify-between align-center">
+          <div class="icon-wrapper">
+            <svg-icon class="icon" icon-class="weibo" title="微博"></svg-icon>
+          </div>
+          <div class="icon-wrapper">
+            <svg-icon class="icon" icon-class="wechat" title="微信"></svg-icon>
+          </div>
+          <div class="icon-wrapper">
+            <svg-icon
+              class="icon"
+              icon-class="github"
+              title="Github"
+            ></svg-icon>
+          </div>
+        </div>
+        <div
+          class="argreement-box flex align-center justify-center"
+          style="margin-top: 20px; font-size: 14px"
         >
-      </span>
+          注册登录即表示同意
+          <el-button type="text">用户协议</el-button> 、
+          <el-button type="text">隐私政策</el-button>
+        </div>
+      </div>
     </el-dialog>
   </header>
 </template>
@@ -88,6 +130,15 @@ export default {
     return {
       searchVal: '',
       loginVisible: false,
+      loginLoading: false,
+      loginForm: {
+        username: '',
+        password: '',
+      },
+      rules: {
+        username: [{ required: true, message: '' }],
+        password: [{ required: true, message: '' }],
+      },
     }
   },
   methods: {
@@ -97,6 +148,25 @@ export default {
     },
     showLogin() {
       this.loginVisible = true
+    },
+    login() {
+      if (!this.loginForm.username) {
+        this.$notify({
+          message: '请输入帐号',
+        })
+        return
+      }
+      if (!this.loginForm.password) {
+        this.$notify({
+          message: '请输入密码',
+        })
+      }
+      this.loginLoading = true
+      this.$store
+        .dispatch('login', this.loginForm)
+        .then(() => {})
+        .catch((e) => console.error(e))
+        .finally(() => (this.loginLoading = false))
     },
   },
 }
@@ -110,9 +180,6 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  ::v-deep .el-dialog__footer {
-    padding: 10px !important;
-  }
   .j-header {
     color: #71777c;
     height: 60px;
