@@ -10,11 +10,11 @@ const config = () => ({
     '@': resolve(__dirname, './client'),
   },
   server: {
-    port: 8080,
+    port: 8999,
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-demo01',
+    title: 'jj',
     htmlAttrs: {
       lang: 'en',
     },
@@ -46,13 +46,12 @@ const config = () => ({
     '@/plugins/i18n', // 国际化
     '@/plugins/svg-icon', // 注册 svg-icons插件文件
     '@/plugins/element-ui',
-    // '@/plugins/axios',
-    // '@/plugins/api-plugin',
     // vuex 持久化
     { src: '@/plugins/vuex-persisted', ssr: false },
     { src: '@/plugins/nuxt-quill-plugin.js', ssr: false }, // 注册vue quill editor ssr
   ],
   router: {
+    linkActiveClass: 'active-route',
     middleware: 'i18n',
   },
   // 进度条样式修改
@@ -76,7 +75,6 @@ const config = () => ({
     ['@nuxtjs/dotenv', { filename: '../.env' }],
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   // axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

@@ -39,9 +39,10 @@ export class ArticleService {
       entity.state = ArticleState.PUBLISHED
       return this.articleRepository.save(entity)
     } else {
-      article.state = ArticleState.PUBLISHED
-      article.tag = tagEntity
-      return this.articleRepository.save(article)
+      const { id,...data } = article
+      data.state = ArticleState.PUBLISHED
+      data.tag = tagEntity
+      return this.articleRepository.save(data)
     }
   }
   queryAndCount(
@@ -56,18 +57,18 @@ export class ArticleService {
     console.log(sortKey, sortValue,category)
     return category
       ? this.articleRepository.findAndCount({
-          relations: ['tag', 'category'],
+          relations: ['tag', 'category','author'],
           where: { category: { id: In(category) } },
           order: { [sortKey]: sortValue },
         })
       : this.articleRepository.findAndCount({
-          relations: ['tag', 'category'],
+          relations: ['tag', 'category','author'],
           order: { [sortKey]: sortValue },
         })
   }
   getOneById(id: string) {
     return this.articleRepository.findOne(id, {
-      relations: ['tag', 'category'],
+      relations: ['tag', 'category','author'],
     })
   }
 }

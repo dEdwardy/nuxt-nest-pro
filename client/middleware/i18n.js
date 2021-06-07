@@ -12,8 +12,6 @@ export default function ({
   if (isHMR) return
   // Get locale from params
   const locale = params.lang || defaultLocale
-  console.error(store)
-  console.error(locale)
   if (store.state.locales && !store.state.locales.includes(locale)) {
     return error({ message: 'This page could not be found.', statusCode: 404 })
   }
