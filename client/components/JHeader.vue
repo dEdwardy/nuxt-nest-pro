@@ -164,7 +164,10 @@ export default {
       this.loginLoading = true
       this.$store
         .dispatch('login', this.loginForm)
-        .then(() => {})
+        .then(() => {
+          this.$message.success('登录成功')
+          this.loginVisible = false
+        })
         .catch((e) => console.error(e))
         .finally(() => (this.loginLoading = false))
     },

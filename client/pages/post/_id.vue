@@ -7,7 +7,10 @@
           style="width: 40px; height: 40px"
           alt=""
         />
-        <div style="flex: 1">
+        <div
+          class="flex justify-center aligin-center flex-column"
+          style="flex: 1; margin-left: 12px"
+        >
           <div class="username">
             {{ post.author.username }}
           </div>
