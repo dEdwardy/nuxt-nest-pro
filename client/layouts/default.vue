@@ -8,7 +8,6 @@
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 *,
 *::before,
@@ -25,7 +24,6 @@
     margin-top: 24px;
     padding-top: 60px;
     background-color: #f4f5f5;
-    height: 100%;
     width: 100%;
     .main {
       height: 100%;

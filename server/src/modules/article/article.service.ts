@@ -39,36 +39,62 @@ export class ArticleService {
       entity.state = ArticleState.PUBLISHED
       return this.articleRepository.save(entity)
     } else {
-      const { id,...data } = article
+      const { id, ...data } = article
       data.state = ArticleState.PUBLISHED
       data.tag = tagEntity
       return this.articleRepository.save(data)
     }
   }
   queryAndCount(
-    query: QueryDto = {
+    queryDto: QueryDto = {
       sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },
     }
   ) {
     const {
-      sortBy: { sortKey , sortValue },
+      sortBy: { sortKey, sortValue },
       category,
-    } = query
-    console.log(sortKey, sortValue,category)
+      query,
+    } = queryDto
+    console.log(sortKey, sortValue, category, query)
     return category
       ? this.articleRepository.findAndCount({
-          relations: ['tag', 'category','author'],
+          relations: ['tag', 'category', 'author'],
           where: { category: { id: In(category) } },
           order: { [sortKey]: sortValue },
         })
       : this.articleRepository.findAndCount({
-          relations: ['tag', 'category','author'],
+          relations: ['tag', 'category', 'author'],
           order: { [sortKey]: sortValue },
         })
   }
+  async getAllAndCount(options) {
+    const { query, category, tags, limit = 10, page = 1 } = options
+    console.log(query, category, tags, limit, page)
+    const queryBuilder = await this.articleRepository.createQueryBuilder(
+      'article'
+    )
+    queryBuilder.leftJoinAndSelect('article.author', 'user')
+    // queryBuilder.leftJoinAndSelect('article.category', 'category')
+    // queryBuilder.leftJoinAndSelect('article.tag', 'tag')
+    // if (category) {
+    //   queryBuilder.where('category.alias IN (:...category)', { category })
+    // }
+    // if (tag) {
+    //   queryBuilder.andWhere('tag.alias IN (:...tag)', { tag })
+    // }
+    if (query) {
+      queryBuilder.andWhere('article.content like :query', { query })
+    }
+    queryBuilder.take(limit).skip(limit * (page - 1))
+    queryBuilder.orderBy({
+      'article.created': 'DESC',
+    })
+    const entities = await queryBuilder.getManyAndCount()
+    return { list: entities[0], total: entities[1] }
+  }
   getOneById(id: string) {
     return this.articleRepository.findOne(id, {
-      relations: ['tag', 'category','author'],
+      relations: ['tag', 'category', 'author'],
     })
   }
 }

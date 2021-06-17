@@ -166,7 +166,13 @@ export default {
   methods: {
     handleSearch() {
       if (!this.searchVal) return
-      this.$emit('search', this.searchVal)
+      this.$router.push({
+        path: '/search',
+        query: {
+          query: this.searchVal,
+        },
+      })
+      // this.$emit('search', this.searchVal)
     },
     showLogin() {
       this.isPassing = false

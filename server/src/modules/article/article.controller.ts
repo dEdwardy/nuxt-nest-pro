@@ -44,4 +44,11 @@ export class ArticleController {
       total
     }
   }
+
+
+  @Post('test')
+  @HttpCode(HttpStatus.OK)
+  async getAll(@Body() options) {
+    return this.articleService.getAllAndCount(options)
+  }
 }
