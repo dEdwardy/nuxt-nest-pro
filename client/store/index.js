@@ -28,9 +28,14 @@ export const mutations = {
 }
 export const actions = {
   login({ commit }, data) {
-    return auth(data).then((res) => {
-      commit('SET_USERINFO', res.data)
-      return res.data
-    })
+    return auth(data)
+      .then((res) => {
+        commit('SET_USERINFO', res.data)
+        return res.data
+      })
+      .catch((e) => {
+        console.error(e)
+        return Promise.reject(e)
+      })
   },
 }
