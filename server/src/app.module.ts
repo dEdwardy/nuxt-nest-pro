@@ -14,7 +14,10 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './core/interceptors/transform.interceptor'
 import { FileModule } from './modules/file/file.module';
 import { StatusMonitorModule } from 'nest-status-monitor'
+import { TaskModule } from './modules/task/task.module';
 import MonitorConfig from './config/status-monitor'
+import { ScheduleModule } from '@nestjs/schedule';
+
 
 @Module({
   imports: [
@@ -32,6 +35,8 @@ import MonitorConfig from './config/status-monitor'
       synchronize: true,
       debug: false,
     }),
+    //定时任务
+    ScheduleModule.forRoot(),
     // api 节流
     // ThrottlerModule.forRoot({
     //   ttl: 60,
@@ -46,6 +51,7 @@ import MonitorConfig from './config/status-monitor'
     CommentModule,
     AuthModule,
     FileModule,
+    TaskModule,
   ],
   controllers: [AppController],
   providers: [

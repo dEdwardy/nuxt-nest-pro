@@ -1,7 +1,7 @@
 import axios from 'axios'
 const instance = axios.create({
   baseURL: 'http://localhost:3000',
-  timeout: 5000,
+  timeout: 15000,
 })
 instance.interceptors.request.use(
   (config) => {
@@ -13,8 +13,9 @@ instance.interceptors.request.use(
 )
 
 instance.interceptors.response.use(
-  (res) => {
-    return res.data
+  ({ data }) => {
+    if (data?.data?.error) return Promise.reject(data.data.error)
+    return data
   },
   (err) => {
     return Promise.reject(err)

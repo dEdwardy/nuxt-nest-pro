@@ -60,7 +60,7 @@
       <div slot="title">
         <span style="font-size: 16px; font-weight: 800">帐号密码登录</span>
       </div>
-      <el-form size="small">
+      <el-form size="small" style="user-selection: none">
         <el-form-item>
           <el-input
             v-model="loginForm.username"
@@ -73,6 +73,23 @@
             placeholder="请输入密码"
             type="password"
           ></el-input>
+        </el-form-item>
+        <el-form-item
+          class="flex align-center justify-end"
+          style="user-selection: none"
+        >
+          <drag-verify
+            ref="verify"
+            :width="268"
+            :height="32"
+            style="border: 1px solid #aaa"
+            :is-passing.sync="isPassing"
+            text="请按住滑块拖动"
+            success-text="验证通过"
+            handler-icon="el-icon-d-arrow-right"
+            success-icon="el-icon-circle-check"
+            @passcallback="handlePass"
+          ></drag-verify>
         </el-form-item>
         <el-form-item>
           <el-button
@@ -118,8 +135,12 @@
 </template>
 
 <script>
+import dragVerify from 'vue-drag-verify2'
 export default {
   name: 'JHeader',
+  components: {
+    dragVerify,
+  },
   props: {
     value: {
       type: String,
@@ -131,6 +152,7 @@ export default {
       searchVal: '',
       loginVisible: false,
       loginLoading: false,
+      isPassing: false,
       loginForm: {
         username: '',
         password: '',
@@ -147,8 +169,10 @@ export default {
       this.$emit('search', this.searchVal)
     },
     showLogin() {
+      this.isPassing = false
       this.loginVisible = true
     },
+    handlePass() {},
     login() {
       if (!this.loginForm.username) {
         this.$notify({
@@ -160,13 +184,32 @@ export default {
         this.$notify({
           message: '请输入密码',
         })
+        return
+      }
+      if (!this.isPassing) {
+        this.$notify({
+          message: '请拖动滑块验证',
+        })
+        return
       }
       this.loginLoading = true
       this.$store
         .dispatch('login', this.loginForm)
-        .then(() => {})
-        .catch((e) => console.error(e))
-        .finally(() => (this.loginLoading = false))
+        .then(() => {
+          this.$notify.success({
+            message: '登录成功',
+          })
+          this.loginLoading = false
+          this.loginVisible = false
+        })
+        .catch((err) => {
+          this.loginLoading = false
+          this.isPassing = false
+          this.$refs.verify.reset()
+          this.$notify.error({
+            message: err,
+          })
+        })
     },
   },
 }
