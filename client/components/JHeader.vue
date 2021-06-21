@@ -29,24 +29,58 @@
               </li>
             </ul>
           </li>
-          <li>
-            <el-input
-              v-model="searchVal"
-              size="small"
-              style="width: 168px"
-              placeholder="探索"
-              class="input-with-select"
-            >
-              <el-button
-                slot="append"
-                icon="el-icon-search"
-                @click.stop="handleSearch"
-              ></el-button>
-            </el-input>
+          <li style="padding: 0">
+            <ul class="search-panel flex">
+              <li class="inner" style="width: 100%">
+                <el-input
+                  v-model="searchVal"
+                  size="small"
+                  style="width: 100%"
+                  placeholder="探索"
+                  class="input-with-select"
+                  @focus="handleFocus"
+                  @blur="handleBlur"
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click.stop="handleSearch"
+                  ></el-button>
+                </el-input>
+              </li>
+              <li v-if="!focus" style="min-width: 96px">创作者中心</li>
+              <li v-if="!focus" style="min-width: 56px">写文章</li>
+            </ul>
           </li>
-          <li>创作者中心</li>
-          <li>写文章</li>
-          <li @click="showLogin">登录</li>
+          <li v-if="uinfo && uinfo.username" @click="showLogin">登录</li>
+          <li v-else class="avatar-wrapper">
+            <el-dropdown
+              trigger="click"
+              class="flex align-center justify-center"
+              style="height: 60px; display: flex"
+            >
+              <img
+                :title="uinfo.username"
+                class="avatar"
+                src="https://edw4rd.cn/assets/avatar.jpg"
+                alt=""
+              />
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="a">写文章</el-dropdown-item>
+                <el-dropdown-item command="b">草稿箱</el-dropdown-item>
+                <el-dropdown-item command="c">我的主页</el-dropdown-item>
+                <el-dropdown-item command="c">我赞过的</el-dropdown-item>
+                <el-dropdown-item command="c">我的小册</el-dropdown-item>
+                <el-dropdown-item command="c">我的收藏</el-dropdown-item>
+                <el-dropdown-item command="c">标签管理</el-dropdown-item>
+                <el-dropdown-item command="c" divided>设置</el-dropdown-item>
+                <el-dropdown-item command="c">关于</el-dropdown-item>
+                <el-dropdown-item command="e" divided
+                  >退出登录</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
+          </li>
         </ul>
       </nav>
     </div>
@@ -135,6 +169,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import dragVerify from 'vue-drag-verify2'
 export default {
   name: 'JHeader',
@@ -149,6 +184,7 @@ export default {
   },
   data() {
     return {
+      focus: false,
       searchVal: '',
       loginVisible: false,
       loginLoading: false,
@@ -163,7 +199,18 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapState({
+      uinfo: (state) => state.uinfo,
+    }),
+  },
   methods: {
+    handleFocus() {
+      this.focus = true
+    },
+    handleBlur() {
+      this.focus = false
+    },
     handleSearch() {
       if (!this.searchVal) return
       this.$router.push({
@@ -229,6 +276,23 @@ export default {
   top: 0;
   left: 0;
   right: 0;
+  .search-panel {
+    width: 400px;
+    .inner {
+      transition: all 0.3 ease-in-out;
+    }
+  }
+  .avatar-wrapper {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+  }
   .j-header {
     color: #71777c;
     height: 60px;

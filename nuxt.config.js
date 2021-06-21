@@ -81,6 +81,7 @@ const config = () => ({
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    parallel: true,
     transpile: [/^element-ui/],
     vendor: ['vue-i18n'],
     extend(config, context) {

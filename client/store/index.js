@@ -6,7 +6,6 @@ export const state = () => ({
   uinfo: {},
   dict: {},
 })
-
 export const mutations = {
   SET_USERINFO(state, uinfo) {
     state.uinfo = uinfo

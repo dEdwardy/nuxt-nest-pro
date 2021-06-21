@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <div class="category flex align-center flex-wrap">
+      <div v-for="(item, index) of categories" :key="index">{{}}</div>
+    </div>
     <div class="article-list">
       <div v-for="(item, index) of list" :key="index" class="article">
         <nuxt-link
@@ -38,18 +41,27 @@
 
 <script>
 import { getArticles } from '../api/article'
+import { getCategories } from '../api/category'
+
 import { format } from '../utils'
 export default {
   async asyncData() {
     try {
-      const { data } = await getArticles()
-      return data
+      const res = await Promise.all(getCategories(), getArticles())
+      console.log(res)
+      // return {
+      //   categories: res1,
+      //   list: res2,
+      // }
     } catch (error) {
       console.error(error)
     }
   },
   data() {
-    return {}
+    return {
+      list: [],
+      categories: [],
+    }
   },
   methods: {
     format,
