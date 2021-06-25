@@ -52,10 +52,8 @@
               <li v-if="!focus" style="min-width: 56px">写文章</li>
             </ul>
           </li>
-          <li v-if="uinfo && uinfo.username" @click="showLogin">登录</li>
-          <li v-else class="avatar-wrapper">
-            <el-dropdown
-              trigger="click"
+          <li v-if="uinfo && uinfo.username" class="avatar-wrapper">
+            <a-dropdown
               class="flex align-center justify-center"
               style="height: 60px; display: flex"
             >
@@ -65,22 +63,23 @@
                 src="https://edw4rd.cn/assets/avatar.jpg"
                 alt=""
               />
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="a">写文章</el-dropdown-item>
-                <el-dropdown-item command="b">草稿箱</el-dropdown-item>
-                <el-dropdown-item command="c">我的主页</el-dropdown-item>
-                <el-dropdown-item command="c">我赞过的</el-dropdown-item>
-                <el-dropdown-item command="c">我的小册</el-dropdown-item>
-                <el-dropdown-item command="c">我的收藏</el-dropdown-item>
-                <el-dropdown-item command="c">标签管理</el-dropdown-item>
-                <el-dropdown-item command="c" divided>设置</el-dropdown-item>
-                <el-dropdown-item command="c">关于</el-dropdown-item>
-                <el-dropdown-item command="e" divided
-                  >退出登录</el-dropdown-item
-                >
-              </el-dropdown-menu>
-            </el-dropdown>
+              <a-menu slot="overlay" @click="onClick">
+                <a-menu-item key="a">写文章</a-menu-item>
+                <a-menu-item key="b">草稿箱</a-menu-item>
+                <a-menu-item key="c">我的主页</a-menu-item>
+                <a-menu-item key="d">我赞过的</a-menu-item>
+                <a-menu-item key="e">我的小册</a-menu-item>
+                <a-menu-item key="f">我的收藏</a-menu-item>
+                <a-menu-item key="g">标签管理</a-menu-item>
+                <a-menu-item key="h">设置</a-menu-item>
+                <a-menu-divider />
+                <a-menu-item key="i">关于</a-menu-item>
+                <a-menu-item key="j">退出登录</a-menu-item>
+                <a-menu-divider />
+              </a-menu>
+            </a-dropdown>
           </li>
+          <li v-else @click="showLogin">登录</li>
         </ul>
       </nav>
     </div>
@@ -205,6 +204,16 @@ export default {
     }),
   },
   methods: {
+    onClick({ key }) {
+      switch (key) {
+        case 'j':
+          this.$store.commit('LOGOUT')
+          break
+
+        default:
+          break
+      }
+    },
     handleFocus() {
       this.focus = true
     },
@@ -248,7 +257,8 @@ export default {
       this.loginLoading = true
       this.$store
         .dispatch('login', this.loginForm)
-        .then(() => {
+        .then(async () => {
+          await this.$store.dispatch('getDict')
           this.$notify.success({
             message: '登录成功',
           })
@@ -283,7 +293,7 @@ export default {
     }
   }
   .avatar-wrapper {
-    height: 60px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdModule } from '../ad/ad.module';
 import { CategoryModule } from '../category/category.module';
 import { TagModule } from '../tag/tag.module';
 import { UserController } from './user.controller';
@@ -10,7 +11,8 @@ import { UserService } from './user.service';
   imports:[
     TypeOrmModule.forFeature([User]),
     CategoryModule,
-    TagModule
+    TagModule,
+    AdModule
   ],
   exports:[
     UserService

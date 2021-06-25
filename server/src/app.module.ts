@@ -17,6 +17,7 @@ import { StatusMonitorModule } from 'nest-status-monitor'
 import { TaskModule } from './modules/task/task.module';
 import MonitorConfig from './config/status-monitor'
 import { ScheduleModule } from '@nestjs/schedule';
+import { AdModule } from './modules/ad/ad.module';
 
 
 @Module({
@@ -52,6 +53,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     AuthModule,
     FileModule,
     TaskModule,
+    AdModule,
   ],
   controllers: [AppController],
   providers: [

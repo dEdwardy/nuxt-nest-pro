@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <div class="category flex align-center flex-wrap">
-      <div v-for="(item, index) of categories" :key="index">{{}}</div>
-    </div>
+    <!-- <div class="category flex align-center flex-wrap">
+      <div v-for="(item, index) of category" :key="index">{{ item.name }}</div>
+    </div> -->
     <div class="article-list">
-      <div v-for="(item, index) of list" :key="index" class="article">
+      <div v-for="(item, index) of article.list" :key="index" class="article">
         <nuxt-link
           :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
           target="_blank"
@@ -35,7 +35,10 @@
         </nuxt-link>
       </div>
     </div>
-    <aside class="aside">aside</aside>
+    <aside class="aside">
+      asides
+      <j-ad></j-ad>
+    </aside>
   </div>
 </template>
 
@@ -47,20 +50,13 @@ import { format } from '../utils'
 export default {
   async asyncData() {
     try {
-      const res = await Promise.all(getCategories(), getArticles())
-      console.log(res)
-      // return {
-      //   categories: res1,
-      //   list: res2,
-      // }
+      const [res1, res2] = await Promise.all([getCategories(), getArticles()])
+      return {
+        category: res1.data,
+        article: res2.data,
+      }
     } catch (error) {
       console.error(error)
-    }
-  },
-  data() {
-    return {
-      list: [],
-      categories: [],
     }
   },
   methods: {

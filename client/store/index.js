@@ -1,4 +1,4 @@
-import { auth } from '@/api/user'
+import { auth, getDict } from '@/api/user'
 export const state = () => ({
   username: '',
   locale: '',
@@ -7,6 +7,9 @@ export const state = () => ({
   dict: {},
 })
 export const mutations = {
+  LOGOUT(state) {
+    state.uinfo = {}
+  },
   SET_USERINFO(state, uinfo) {
     state.uinfo = uinfo
   },
@@ -31,6 +34,16 @@ export const actions = {
       .then((res) => {
         commit('SET_USERINFO', res.data)
         return res.data
+      })
+      .catch((e) => {
+        console.error(e)
+        return Promise.reject(e)
+      })
+  },
+  getDict({ commit }) {
+    return getDict()
+      .then(({ data }) => {
+        commit('SET_DICT', data)
       })
       .catch((e) => {
         console.error(e)
