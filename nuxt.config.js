@@ -5,7 +5,7 @@ import { resolve } from 'path'
 const config = () => ({
   srcDir: 'client/',
   buildDir: process.env.NUXT_ENV === 'ssr' ? '.nuxt-ssr' : '.nuxt-csr',
-  ssr: process.env.NUXT_ENV,
+  ssr: process.env.NUXT_ENV === 'ssr',
   alias: {
     '@': resolve(__dirname, './client'),
   },
@@ -47,6 +47,7 @@ const config = () => ({
     '@/plugins/i18n', // 国际化
     '@/plugins/svg-icon', // 注册 svg-icons插件文件
     '@/plugins/element-ui',
+    '@/plugins/antd-vue',
     // vuex 持久化
     { src: '@/plugins/vuex-persisted', ssr: false },
     { src: '@/plugins/nuxt-quill-plugin.js', ssr: false }, // 注册vue quill editor ssr

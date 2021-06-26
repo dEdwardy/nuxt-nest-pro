@@ -1,35 +1,36 @@
 <template>
   <div class="post">
     <div class="article-detail">
-      <div class="infos">
-        <img
-          src="https://edw4rd.cn/assets/avatar.jpg"
-          style="width: 40px; height: 40px"
-          alt=""
-        />
-        <div
-          class="flex justify-center aligin-center flex-column"
-          style="flex: 1; margin-left: 12px"
-        >
-          <div class="username">
-            {{ post.author.username }}
+      <a-skeleton :loading="loading" :paragraph="{ rows: 4 }" active>
+        <div class="infos">
+          <img
+            src="https://edw4rd.cn/assets/avatar.jpg"
+            style="width: 40px; height: 40px"
+            alt=""
+          />
+          <div
+            class="flex justify-center aligin-center flex-column"
+            style="flex: 1; margin-left: 12px"
+          >
+            <div class="username">
+              {{ post.author.username }}
+            </div>
+            <div class="meta-info">
+              {{ format(post.created) }}
+            </div>
           </div>
-          <div class="meta-info">
-            {{ format(post.created) }}
+          <el-button>关注</el-button>
+        </div>
+        <div class="post-title">
+          {{ post.title }}
+        </div>
+        <div class="post-body">
+          <div class="ql-container ql-snow preview">
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <div class="ql-editor" v-html="post.content"></div>
           </div>
         </div>
-        <el-button>关注</el-button>
-      </div>
-      <div class="post-title">
-        {{ post.title }}
-      </div>
-      <div class="post-body">
-        <!-- <div v-html="post.content"></div> -->
-        <div class="ql-container ql-snow preview">
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <div class="ql-editor" v-html="post.content"></div>
-        </div>
-      </div>
+      </a-skeleton>
     </div>
     <aside class="aside">aside</aside>
   </div>
@@ -43,6 +44,7 @@ export default {
     try {
       const { data } = await getArtilceById(id)
       return {
+        loading: false,
         post: data,
       }
     } catch (err) {
@@ -51,6 +53,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       editorOption: {
         placeholder: '请输入',
       },

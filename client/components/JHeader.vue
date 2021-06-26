@@ -52,15 +52,15 @@
               <li v-if="!focus" style="min-width: 56px">写文章</li>
             </ul>
           </li>
-          <li v-if="uinfo && uinfo.username" @click="showLogin">登录</li>
-          <li v-else class="avatar-wrapper">
+          <li v-if="uinfo && uinfo.username" class="avatar-wrapper">
+            <!-- {{ uinfo.username }} -->
             <el-dropdown
               trigger="click"
               class="flex align-center justify-center"
               style="height: 60px; display: flex"
+              @command="handleClickMenu"
             >
               <img
-                :title="uinfo.username"
                 class="avatar"
                 src="https://edw4rd.cn/assets/avatar.jpg"
                 alt=""
@@ -69,18 +69,19 @@
                 <el-dropdown-item command="a">写文章</el-dropdown-item>
                 <el-dropdown-item command="b">草稿箱</el-dropdown-item>
                 <el-dropdown-item command="c">我的主页</el-dropdown-item>
-                <el-dropdown-item command="c">我赞过的</el-dropdown-item>
-                <el-dropdown-item command="c">我的小册</el-dropdown-item>
-                <el-dropdown-item command="c">我的收藏</el-dropdown-item>
-                <el-dropdown-item command="c">标签管理</el-dropdown-item>
-                <el-dropdown-item command="c" divided>设置</el-dropdown-item>
-                <el-dropdown-item command="c">关于</el-dropdown-item>
-                <el-dropdown-item command="e" divided
+                <el-dropdown-item command="d">我赞过的</el-dropdown-item>
+                <el-dropdown-item command="e">我的小册</el-dropdown-item>
+                <el-dropdown-item command="f">我的收藏</el-dropdown-item>
+                <el-dropdown-item command="g">标签管理</el-dropdown-item>
+                <el-dropdown-item command="h" divided>设置</el-dropdown-item>
+                <el-dropdown-item command="i">关于</el-dropdown-item>
+                <el-dropdown-item command="j" divided
                   >退出登录</el-dropdown-item
                 >
               </el-dropdown-menu>
             </el-dropdown>
           </li>
+          <li v-else @click="showLogin">登录</li>
         </ul>
       </nav>
     </div>
@@ -204,7 +205,22 @@ export default {
       uinfo: (state) => state.uinfo,
     }),
   },
+  mounted() {
+    console.error(this.uinfo)
+  },
   methods: {
+    handleClickMenu(e) {
+      switch (e) {
+        case 'j':
+          this.logout()
+          break
+        default:
+          break
+      }
+    },
+    logout() {
+      this.$store.commit('SET_USERINFO', {})
+    },
     handleFocus() {
       this.focus = true
     },

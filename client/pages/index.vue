@@ -1,67 +1,74 @@
 <template>
-  <div class="home">
-    <div class="category flex align-center flex-wrap">
-      <div v-for="(item, index) of categories" :key="index">{{}}</div>
-    </div>
-    <div class="article-list">
-      <div v-for="(item, index) of list" :key="index" class="article">
-        <nuxt-link
-          :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
-          target="_blank"
-        >
-          <div class="infos">
-            <div class="author">
-              {{ item.author.username }}
-            </div>
-            <div class="created">| {{ format(item.created) }}</div>
-            <div class="tag">| {{ item.tag.map((i) => i.name).join(' ') }}</div>
-          </div>
-          <div class="main-content">
-            <div class="left">
-              <div class="title">
-                {{ item.title }}
-              </div>
-              <div class="desc">
-                {{ item.brief_content }}
-              </div>
-            </div>
-            <div class="right">
-              <img
-                src="https://edw4rd.cn/assets/avatar.jpg"
-                class="article-bg"
-              />
-            </div>
-          </div>
-        </nuxt-link>
+  <div class="home-wrapper">
+    <!-- <j-category :category="categories"></j-category> -->
+    <!-- <div class="category flex align-center flex-wrap">
+      <div v-for="(item, index) of categories" :key="index" class="item">
+        {{ item.name }}
       </div>
+    </div> -->
+    <div class="home">
+      <div class="article-list">
+        <div
+          v-for="(item, index) of articles.list"
+          :key="index"
+          class="article"
+        >
+          <nuxt-link
+            :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
+            target="_blank"
+          >
+            <div class="infos">
+              <div class="author">
+                {{ item.author.username }}
+              </div>
+              <div class="created">| {{ format(item.created) }}</div>
+              <div class="tag">
+                | {{ item.tag.map((i) => i.name).join(' ') }}
+              </div>
+            </div>
+            <div class="main-content">
+              <div class="left">
+                <div class="title">
+                  {{ item.title }}
+                </div>
+                <div class="desc">
+                  {{ item.brief_content }}
+                </div>
+              </div>
+              <div class="right">
+                <img
+                  src="https://edw4rd.cn/assets/avatar.jpg"
+                  class="article-bg"
+                />
+              </div>
+            </div>
+          </nuxt-link>
+        </div>
+      </div>
+      <aside class="aside">asides</aside>
     </div>
-    <aside class="aside">aside</aside>
   </div>
 </template>
 
 <script>
 import { getArticles } from '../api/article'
 import { getCategories } from '../api/category'
-
 import { format } from '../utils'
 export default {
   async asyncData() {
     try {
-      const res = await Promise.all(getCategories(), getArticles())
-      console.log(res)
-      // return {
-      //   categories: res1,
-      //   list: res2,
-      // }
+      const [res1, res2] = await Promise.all([getCategories(), getArticles()])
+      console.log(res1)
+      return {
+        // categories: res1.data,
+        articles: res2.data,
+      }
     } catch (error) {
       console.error(error)
     }
   },
-  data() {
-    return {
-      list: [],
-      categories: [],
-    }
+  mounted() {
+    console.log(this.categories)
   },
   methods: {
     format,
@@ -70,89 +77,99 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home {
-  a {
-    text-decoration: none;
-  }
-  height: 100%;
-  display: flex;
-  .article-list {
-    background-color: #f4f5f5;
-    flex: 1;
-    margin-right: 16px;
-    .article {
-      padding: 12px 20px 0;
-      cursor: pointer;
-      background-color: #fff;
-      border-bottom: 1px solid #e5e6eb;
-      &:link,
-      &:visited,
-      &:hover,
-      &:active {
-        background-color: #fafafa;
-      }
-      .infos {
-        display: flex;
-        align-items: center;
-        font-size: 13px;
-        line-height: 22px;
-        color: #4e5969;
-        .author {
-          max-width: 162px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          word-break: break-all;
+.home-wrapper {
+  // .category {
+  //   height: 46px;
+  //   line-height: 46px;
+  //   background: #fff;
+  //   .item {
+  //     margin-right: 12px;
+  //   }
+  // }
+  .home {
+    a {
+      text-decoration: none;
+    }
+    height: 100%;
+    display: flex;
+    .article-list {
+      background-color: #f4f5f5;
+      flex: 1;
+      margin-right: 16px;
+      .article {
+        padding: 12px 20px 0;
+        cursor: pointer;
+        background-color: #fff;
+        border-bottom: 1px solid #e5e6eb;
+        &:link,
+        &:visited,
+        &:hover,
+        &:active {
+          background-color: #fafafa;
         }
-        .created {
-          margin: 0 2px;
-        }
-        .tag {
-          margin: 0 2px;
-        }
-      }
-      .main-content {
-        display: flex;
-        margin-top: 10px;
-        padding-bottom: 12px;
-        width: 100%;
-        .left {
-          flex: 1;
-          .title {
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 24px;
-            color: #1d2129;
-            display: -webkit-box;
+        .infos {
+          display: flex;
+          align-items: center;
+          font-size: 13px;
+          line-height: 22px;
+          color: #4e5969;
+          .author {
+            max-width: 162px;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
+            word-break: break-all;
           }
-          .desc {
-            margin-top: 8px;
-            font-weight: 400;
-            font-size: 13px;
-            line-height: 22px;
-            color: #86909c;
-            display: -webkit-box;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
+          .created {
+            margin: 0 2px;
+          }
+          .tag {
+            margin: 0 2px;
           }
         }
-        .right {
-          .article-bg {
-            width: 120px;
-            height: 80px;
+        .main-content {
+          display: flex;
+          margin-top: 10px;
+          padding-bottom: 12px;
+          width: 100%;
+          .left {
+            flex: 1;
+            .title {
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 24px;
+              color: #1d2129;
+              display: -webkit-box;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+            }
+            .desc {
+              margin-top: 8px;
+              font-weight: 400;
+              font-size: 13px;
+              line-height: 22px;
+              color: #86909c;
+              display: -webkit-box;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+            }
+          }
+          .right {
+            .article-bg {
+              width: 120px;
+              height: 80px;
+            }
           }
         }
       }
     }
-  }
-  .aside {
-    width: 240px;
+    .aside {
+      width: 240px;
+    }
   }
 }
 </style>

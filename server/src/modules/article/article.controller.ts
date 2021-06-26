@@ -32,6 +32,12 @@ export class ArticleController {
     return this.articleService.getOneById(id)
   }
 
+  @Post('test')
+  @HttpCode(HttpStatus.OK)
+  async getAll(@Body() options) {
+    return this.articleService.getAllAndCount(options)
+  }
+
   @Post()
   @HttpCode(HttpStatus.OK)
   async getAllAndCount(@Body() options:QueryDto){
@@ -45,10 +51,4 @@ export class ArticleController {
     }
   }
 
-
-  @Post('test')
-  @HttpCode(HttpStatus.OK)
-  async getAll(@Body() options) {
-    return this.articleService.getAllAndCount(options)
-  }
 }
