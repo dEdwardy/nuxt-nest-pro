@@ -1,17 +1,17 @@
 <template>
-  <div class="home-wrapper">
-    <!-- <j-category :category="categories"></j-category> -->
+  <div class="home">
     <!-- <div class="category flex align-center flex-wrap">
-      <div v-for="(item, index) of categories" :key="index" class="item">
-        {{ item.name }}
-      </div>
+      <div v-for="(item, index) of category" :key="index">{{ item.name }}</div>
     </div> -->
-    <div class="home">
-      <div class="article-list">
-        <div
-          v-for="(item, index) of articles.list"
-          :key="index"
-          class="article"
+    <div class="article-list">
+      <div
+        v-for="(item, index) of article.list"
+        :key="index"
+        class="article"
+      >
+        <nuxt-link
+          :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
+          target="_blank"
         >
           <nuxt-link
             :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
@@ -43,10 +43,11 @@
               </div>
             </div>
           </nuxt-link>
-        </div>
       </div>
-      <aside class="aside">asides</aside>
     </div>
+    <aside class="aside">
+      <j-ad></j-ad>
+    </aside>
   </div>
 </template>
 
@@ -55,20 +56,16 @@ import { getArticles } from '../api/article'
 import { getCategories } from '../api/category'
 import { format } from '../utils'
 export default {
-  async asyncData() {
+  async asyncData () {
     try {
       const [res1, res2] = await Promise.all([getCategories(), getArticles()])
-      console.log(res1)
       return {
-        // categories: res1.data,
-        articles: res2.data,
+        category: res1.data,
+        article: res2.data,
       }
     } catch (error) {
       console.error(error)
     }
-  },
-  mounted() {
-    console.log(this.categories)
   },
   methods: {
     format,

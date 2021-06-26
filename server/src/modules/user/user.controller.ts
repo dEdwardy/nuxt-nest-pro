@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { ArticleState } from '../../core/interfaces/enums/article-state.enum'
 import { UserState } from '../../core/interfaces/enums/user-state.enum'
+import { AdService } from '../ad/ad.service'
 import { CategoryService } from '../category/category.service'
 import { TagService } from '../tag/tag.service'
 import { UpdateUserDto, UserDto } from './user.dto'
@@ -13,7 +14,8 @@ export class UserController {
   constructor(
     public userService: UserService,
     public categoryService: CategoryService,
-    public tagService: TagService
+    public tagService: TagService,
+    public adService:AdService
   ) {}
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -41,8 +43,10 @@ export class UserController {
   @Get('/dict')
   @ApiOperation({ description: '获取字典' })
   async getDictList() {
-    const category = await this.categoryService.findAll()
-    const tag = await this.tagService.findAll()
+    const [category,tag,ad] = await Promise.all([this.categoryService.findAll(),this.tagService.findAll(),this.adService.getAll()])
+    // const category = await this.categoryService.findAll()
+    // const tag = await this.tagService.findAll()
+    // const ad = await this.adService.getAll()
     const articleState= {}
     const userState = {}
     articleState[ArticleState.DRAFT] =  'draft'
@@ -54,7 +58,8 @@ export class UserController {
       category,
       articleState,
       userState,
-      tag
+      tag,
+      ad
     }
   }
 }

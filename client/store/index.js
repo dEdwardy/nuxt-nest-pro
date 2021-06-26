@@ -1,5 +1,5 @@
-import { auth } from '@/api/user'
 import { getCategories } from '@/api/category'
+import { auth, getDict } from '@/api/user'
 export const state = () => ({
   username: '',
   locale: '',
@@ -9,6 +9,9 @@ export const state = () => ({
   category: [],
 })
 export const mutations = {
+  LOGOUT(state) {
+    state.uinfo = {}
+  },
   SET_USERINFO(state, uinfo) {
     state.uinfo = uinfo
   },
@@ -43,5 +46,15 @@ export const actions = {
       console.error(err)
       return err
     }
+  },
+  getDict({ commit }) {
+    return getDict()
+      .then(({ data }) => {
+        commit('SET_DICT', data)
+      })
+      .catch((e) => {
+        console.error(e)
+        return Promise.reject(e)
+      })
   },
 }

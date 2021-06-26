@@ -1,5 +1,7 @@
 import {
   Controller,
+  HttpCode,
+  HttpStatus,
   Post,
   UploadedFile,
   UploadedFiles,
@@ -13,6 +15,7 @@ export class FileController {
   constructor(private readonly fileService: FileService) {}
 
   @Post('upload')
+  @HttpCode(HttpStatus.OK)
   @UseInterceptors(FilesInterceptor('file'))
   saveFile(@UploadedFiles() files:Express.Multer.File[]) {
     const data = files.map(({ filename, mimetype, size,path }) => ({
