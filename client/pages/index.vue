@@ -65,91 +65,89 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home-wrapper {
-  .home {
-    a {
-      text-decoration: none;
-    }
-    height: 100%;
-    display: flex;
-    .article-list {
-      background-color: #f4f5f5;
-      flex: 1;
-      margin-right: 16px;
-      .article {
-        padding: 12px 20px 0;
-        cursor: pointer;
-        background-color: #fff;
-        border-bottom: 1px solid #e5e6eb;
-        &:link,
-        &:visited,
-        &:hover,
-        &:active {
-          background-color: #fafafa;
+.home {
+  a {
+    text-decoration: none;
+  }
+  height: 100%;
+  display: flex;
+  .article-list {
+    background-color: #f4f5f5;
+    flex: 1;
+    margin-right: 16px;
+    .article {
+      padding: 12px 20px 0;
+      cursor: pointer;
+      background-color: #fff;
+      border-bottom: 1px solid #e5e6eb;
+      &:link,
+      &:visited,
+      &:hover,
+      &:active {
+        background-color: #fafafa;
+      }
+      .infos {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        line-height: 22px;
+        color: #4e5969;
+        .author {
+          max-width: 162px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-all;
         }
-        .infos {
-          display: flex;
-          align-items: center;
-          font-size: 13px;
-          line-height: 22px;
-          color: #4e5969;
-          .author {
-            max-width: 162px;
-            white-space: nowrap;
+        .created {
+          margin: 0 2px;
+        }
+        .tag {
+          margin: 0 2px;
+        }
+      }
+      .main-content {
+        display: flex;
+        margin-top: 10px;
+        padding-bottom: 12px;
+        width: 100%;
+        .left {
+          flex: 1;
+          .title {
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 24px;
+            color: #1d2129;
+            display: -webkit-box;
             overflow: hidden;
             text-overflow: ellipsis;
-            word-break: break-all;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
           }
-          .created {
-            margin: 0 2px;
-          }
-          .tag {
-            margin: 0 2px;
+          .desc {
+            margin-top: 8px;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 22px;
+            color: #86909c;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
           }
         }
-        .main-content {
-          display: flex;
-          margin-top: 10px;
-          padding-bottom: 12px;
-          width: 100%;
-          .left {
-            flex: 1;
-            .title {
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 24px;
-              color: #1d2129;
-              display: -webkit-box;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 1;
-            }
-            .desc {
-              margin-top: 8px;
-              font-weight: 400;
-              font-size: 13px;
-              line-height: 22px;
-              color: #86909c;
-              display: -webkit-box;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 1;
-            }
-          }
-          .right {
-            .article-bg {
-              width: 120px;
-              height: 80px;
-            }
+        .right {
+          .article-bg {
+            width: 120px;
+            height: 80px;
           }
         }
       }
     }
-    .aside {
-      width: 240px;
-    }
+  }
+  .aside {
+    width: 240px;
   }
 }
 </style>

@@ -25,16 +25,18 @@ export default {
   },
   computed: {
     ...mapState({
-      ad: (state) => state.dict.ad || [],
+      ad: (state) => state?.dict?.ad ?? [],
     }),
   },
   mounted() {
+    if (!this.ad || this.ad.length === 0) return
     window.addEventListener('scroll', this.handleScroll)
     this.io = new IntersectionObserver(this.handleObserva)
     const el = this.$refs['j-ad']
     this.io.observe(el)
   },
   beforeDestroy() {
+    if (!this.ad || this.ad.length === 0) return
     window.removeEventListener('scroll', this.handleScroll)
     const el = this.$refs['j-ad']
     this.io.unobserve(el)

@@ -56,7 +56,6 @@
             <a-dropdown
               class="flex align-center justify-center"
               style="height: 60px; display: flex"
-              @command="handleClickMenu"
             >
               <img
                 class="avatar"
