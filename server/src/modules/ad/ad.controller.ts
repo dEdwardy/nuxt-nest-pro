@@ -20,7 +20,8 @@ export class AdController {
   }
   @Delete()
   @ApiProperty({ title: '删除广告' })
-  DeleteOne(id: string) {
+  DeleteOne(@Body() data) {
+    const {  id } = data
     return this.adService.remove(id)
   }
   @Get()

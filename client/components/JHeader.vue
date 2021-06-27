@@ -48,8 +48,8 @@
                   ></el-button>
                 </el-input>
               </li>
-              <li v-if="!focus" style="min-width: 96px">创作者中心</li>
-              <li v-if="!focus" style="min-width: 56px">写文章</li>
+              <li v-if="!focus" style="min-width: 102px">创作者中心</li>
+              <li v-if="!focus" style="min-width: 74px">写文章</li>
             </ul>
           </li>
           <li v-if="uinfo && uinfo.username" class="avatar-wrapper">
