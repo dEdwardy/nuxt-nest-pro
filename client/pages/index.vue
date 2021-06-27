@@ -4,48 +4,39 @@
       <div v-for="(item, index) of category" :key="index">{{ item.name }}</div>
     </div> -->
     <div class="article-list">
-      <div
-        v-for="(item, index) of article.list"
-        :key="index"
-        class="article"
-      >
+      <div v-for="(item, index) of article.list" :key="index" class="article">
         <nuxt-link
           :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
           target="_blank"
         >
-          <nuxt-link
-            :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
-            target="_blank"
-          >
-            <div class="infos">
-              <div class="author">
-                {{ item.author.username }}
+          <div class="infos">
+            <div class="author">
+              {{ item.author.username }}
+            </div>
+            <div class="created">| {{ format(item.created) }}</div>
+            <div class="tag">| {{ item.tag.map((i) => i.name).join(' ') }}</div>
+          </div>
+          <div class="main-content">
+            <div class="left">
+              <div class="title">
+                {{ item.title }}
               </div>
-              <div class="created">| {{ format(item.created) }}</div>
-              <div class="tag">
-                | {{ item.tag.map((i) => i.name).join(' ') }}
+              <div class="desc">
+                {{ item.brief_content }}
               </div>
             </div>
-            <div class="main-content">
-              <div class="left">
-                <div class="title">
-                  {{ item.title }}
-                </div>
-                <div class="desc">
-                  {{ item.brief_content }}
-                </div>
-              </div>
-              <div class="right">
-                <img
-                  src="https://edw4rd.cn/assets/avatar.jpg"
-                  class="article-bg"
-                />
-              </div>
+            <div class="right">
+              <img
+                src="https://edw4rd.cn/assets/avatar.jpg"
+                class="article-bg"
+              />
             </div>
-          </nuxt-link>
+          </div>
+        </nuxt-link>
       </div>
     </div>
     <aside class="aside">
+      asides
       <j-ad></j-ad>
     </aside>
   </div>
@@ -56,7 +47,7 @@ import { getArticles } from '../api/article'
 import { getCategories } from '../api/category'
 import { format } from '../utils'
 export default {
-  async asyncData () {
+  async asyncData() {
     try {
       const [res1, res2] = await Promise.all([getCategories(), getArticles()])
       return {
@@ -75,14 +66,6 @@ export default {
 
 <style lang="scss" scoped>
 .home-wrapper {
-  // .category {
-  //   height: 46px;
-  //   line-height: 46px;
-  //   background: #fff;
-  //   .item {
-  //     margin-right: 12px;
-  //   }
-  // }
   .home {
     a {
       text-decoration: none;
