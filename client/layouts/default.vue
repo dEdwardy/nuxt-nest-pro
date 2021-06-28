@@ -22,16 +22,16 @@
   overflow-y: auto;
   .main-wrapper {
     margin-top: 24px;
-    padding-top: 60px;
+    padding-top: 84px;
     background-color: #f4f5f5;
     width: 100%;
     .main {
       height: 100%;
       flex: 1;
       position: relative;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 960px;
+      // margin: 0 auto;
+      // width: 100%;
+      // max-width: 960px;
     }
   }
 }

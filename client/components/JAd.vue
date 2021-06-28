@@ -6,8 +6,8 @@
         :src="'http://localhost:3000/static/' + item.url"
         alt=""
       />
-      <span class="ad">投放广告</span>
-      <span class="close">X</span>
+      <span class="ad">广告</span>
+      <span class="close" @click.stop="() => handleClose(item)">X</span>
     </div>
   </div>
 </template>
@@ -44,7 +44,11 @@ export default {
     this.io = null
   },
   methods: {
-    handleScroll: throttle((e) => {
+    handleClose(item) {
+      this.$store.commit('CLOSE_AD', item.id)
+    },
+    handleScroll: throttle(function (e) {
+      if (!this.fixed) return
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop
       if (scrollTop <= this.top) {
@@ -52,10 +56,7 @@ export default {
       }
     }, 200),
     handleObserva([el]) {
-      console.log(el)
       if (el.intersectionRatio === 0) {
-        console.log(el.boundingClientRect)
-        console.error(document.body.scrollTop)
         this.top = document.documentElement.scrollTop || document.body.scrollTop
         this.fixed = true
       }
@@ -67,13 +68,14 @@ export default {
 <style lang="scss" scoped>
 .j-ad {
   position: relative;
+  top: 0;
   &.fixed {
     position: fixed;
+    top: 67px;
   }
   .ad-wrapper {
     background: #fff;
     margin-bottom: 10px;
-    padding: 10px;
     width: 220px;
     height: 220px;
     position: relative;
@@ -82,15 +84,25 @@ export default {
       height: 100%;
     }
     .ad {
+      cursor: pointer;
       position: absolute;
-      right: 14px;
-      bottom: 14px;
+      right: 6px;
+      bottom: 6px;
       color: #aaa;
+      &:link,
+      &:visited,
+      &:hover,
+      &:active {
+        &::before {
+          content: '投放';
+        }
+      }
     }
     .close {
+      cursor: pointer;
       position: absolute;
-      right: 14px;
-      top: 14px;
+      right: 6px;
+      top: 6px;
       color: #aaa;
     }
   }

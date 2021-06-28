@@ -32,6 +32,10 @@ export const mutations = {
   SET_CATEGORY(state, category) {
     state.category = category
   },
+  CLOSE_AD(state, id) {
+    const idx = state.dict.ad.findIndex((item) => item.id === id)[0]
+    state.dict.ad.splice(idx, 1)
+  },
 }
 export const actions = {
   async login({ commit }, data) {

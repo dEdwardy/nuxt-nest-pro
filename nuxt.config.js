@@ -50,7 +50,7 @@ const config = () => ({
     '@/plugins/antd-vue',
     // vuex 持久化
     { src: '@/plugins/vuex-persisted', ssr: false },
-    { src: '@/plugins/nuxt-quill-plugin.js', ssr: false }, // 注册vue quill editor ssr
+    { src: '@/plugins/nuxt-quill-plugin', ssr: false }, // 注册vue quill editor ssr
   ],
   router: {
     linkActiveClass: 'active-route',
@@ -83,7 +83,7 @@ const config = () => ({
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // parallel: true,
-    transpile: [/^element-ui/],
+    transpile: [/^element-ui/, /^lodash-es/],
     vendor: ['vue-i18n'],
     extend(config, context) {
       // 排除 nuxt 原配置的影响,Nuxt 默认有vue-loader,会处理svg,img等

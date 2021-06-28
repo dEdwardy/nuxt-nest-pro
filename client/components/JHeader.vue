@@ -9,12 +9,12 @@
         />
       </a>
       <nav class="nav">
-        <ul>
+        <ul class="flex">
           <li>
             <nuxt-link to="/">首页</nuxt-link>
           </li>
           <li style="padding: 0">
-            <ul class="phone-hide">
+            <ul class="phone-hide flex">
               <li>
                 <nuxt-link target="_blank" to="/recommended">沸点</nuxt-link>
               </li>
@@ -52,12 +52,16 @@
               <li v-if="!focus" style="min-width: 74px">写文章</li>
             </ul>
           </li>
-          <li v-if="uinfo && uinfo.username" class="avatar-wrapper">
+          <!-- <li v-if="uinfo && uinfo.username" class="avatar-wrapper"> -->
+          <li v-show="uinfo && uinfo.username" class="avatar-wrapper">
             <a-dropdown
+              :trigger="['click']"
+              :get-popup-container="getPopupContainer"
               class="flex align-center justify-center"
               style="height: 60px; display: flex"
             >
               <img
+                id="avatar"
                 class="avatar"
                 src="https://edw4rd.cn/assets/avatar.jpg"
                 alt=""
@@ -78,7 +82,7 @@
               </a-menu>
             </a-dropdown>
           </li>
-          <li v-else @click="showLogin">登录</li>
+          <li v-show="!(uinfo && uinfo.username)" @click="showLogin">登录</li>
         </ul>
       </nav>
     </div>
@@ -206,20 +210,25 @@ export default {
     console.error(this.uinfo)
   },
   methods: {
+    getPopupContainer(node) {
+      console.error(node)
+      return node.parentNode
+    },
     onClick({ key }) {
       switch (key) {
         case 'j':
           this.$store.commit('LOGOUT')
           break
-
         default:
           break
       }
     },
     handleFocus() {
+      if (this.focus) return
       this.focus = true
     },
     handleBlur() {
+      if (!this.focus) return
       this.focus = false
     },
     handleSearch() {
@@ -282,6 +291,7 @@ export default {
 
 <style lang="scss" scoped>
 .j-header-wrapper {
+  border-bottom: 1px solid #f1f1f1;
   z-index: 999;
   background-color: #fff;
   position: fixed;
@@ -337,15 +347,19 @@ export default {
         border-radius: 50%;
       }
     }
-    .nav ul {
-      display: flex;
-      align-items: center;
-      li {
-        a {
-          color: #71777c;
+    .nav {
+      height: 60px;
+      line-height: 60px;
+      ul.flex {
+        display: flex;
+        align-items: center;
+        li {
+          a {
+            color: #71777c;
+          }
+          cursor: pointer;
+          padding: 0 16px;
         }
-        cursor: pointer;
-        padding: 0 16px;
       }
     }
   }

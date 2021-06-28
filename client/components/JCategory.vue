@@ -1,8 +1,16 @@
 <template>
-  <div class="category flex align-center flex-wrap">
-    <div v-for="(item, index) of category" :key="index" class="item">
+  <div class="categories flex align-center flex-wrap">
+    <span
+      v-for="(item, index) of category"
+      :key="index"
+      class="category item"
+      @click="() => handleClick(item)"
+    >
       {{ item.name }}
-    </div>
+      <span v-for="(i, idx) of item.tag" :key="idx" class="tag item">
+        {{ i.name }}
+      </span>
+    </span>
   </div>
 </template>
 
@@ -20,15 +28,27 @@ export default {
   data() {
     return {}
   },
+  computed: {
+    tag() {
+      return this.category[0]
+    },
+  },
+  methods: {
+    handleClick(item) {},
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.category {
+.categories {
   height: 46px;
   line-height: 46px;
   background: #fff;
-  .item {
+  .category.item {
+    margin-right: 12px;
+  }
+  .tag.item {
+    color: red;
     margin-right: 12px;
   }
 }
