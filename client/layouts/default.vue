@@ -21,8 +21,8 @@
   flex-direction: column;
   overflow-y: auto;
   .main-wrapper {
-    margin-top: 24px;
-    padding-top: 84px;
+    // margin-top: 24px;
+    padding-top: 61px;
     background-color: #f4f5f5;
     width: 100%;
     .main {
