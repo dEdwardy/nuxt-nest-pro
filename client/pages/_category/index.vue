@@ -45,8 +45,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getArticles } from '../api/article'
-import { format } from '../utils'
+import { getArticles } from '@/api/article'
+import { format } from '@/utils'
 export default {
   async asyncData() {
     try {

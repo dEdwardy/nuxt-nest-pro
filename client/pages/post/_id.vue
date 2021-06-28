@@ -67,6 +67,9 @@ export default {
 
 <style lang="scss" scoepd>
 .post {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 960px;
   display: flex;
   min-height: calc(100vh - 84px);
   // background-color: #f4f5f5;

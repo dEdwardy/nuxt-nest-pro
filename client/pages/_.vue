@@ -3,7 +3,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {}
+  },
+  mounted() {
+    console.error(this.$route.params, this.$route)
+  },
+}
 </script>
 
 <style></style>

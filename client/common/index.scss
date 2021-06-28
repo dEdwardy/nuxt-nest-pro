@@ -53,4 +53,9 @@
     height:23px;
   }
 }
-
+a {
+  color: #71777c !important;
+  &.active-route {
+    color: #1890ff !important;
+  }
+}
