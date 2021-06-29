@@ -48,9 +48,12 @@ import { mapState } from 'vuex'
 import { getArticles } from '@/api/article'
 import { format } from '@/utils'
 export default {
-  async asyncData() {
+  async asyncData({ params, store }) {
     try {
-      const { data } = await getArticles()
+      const category = store.state.dict.category.filter(
+        (item) => item.name === params.category
+      )[0].id
+      const { data } = await getArticles({ category })
       return {
         article: data,
       }

@@ -59,7 +59,7 @@ export class ArticleService {
     return category
       ? this.articleRepository.findAndCount({
           relations: ['tag', 'category', 'author'],
-          where: { category: { id: In(category) } },
+          where: { category: { id: category } },
           order: { [sortKey]: sortValue },
         })
       : this.articleRepository.findAndCount({
