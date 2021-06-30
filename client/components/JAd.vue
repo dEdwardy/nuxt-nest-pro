@@ -84,6 +84,8 @@ export default {
       height: 100%;
     }
     .ad {
+      border: 1px solid #aaa;
+      padding: 0 6px;
       cursor: pointer;
       position: absolute;
       right: 6px;

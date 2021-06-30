@@ -1,7 +1,7 @@
 <template>
   <div class="j-category">
     <div class="categories-wrapper">
-      <div class="categories flex align-center flex-wrap">
+      <div class="categories flex flex-wrap align-center flex-wrap">
         <nuxt-link
           v-for="(item, index) of category"
           :key="index"
@@ -9,20 +9,18 @@
           :to="{
             path: `/${item.name}`,
           }"
-          @click="() => handleClick(item)"
         >
           {{ item.name }}
         </nuxt-link>
       </div>
     </div>
     <div class="tags-wrapper">
-      <div class="tags flex align-center flex-wrap">
+      <div class="tags flex flex-wrap align-center flex-wrap">
         <nuxt-link
-          v-for="(item, index) of category"
+          v-for="(item, index) of tag"
           :key="index"
           class="tag item"
-          :to="{ path: `/${item.name}`, params: { id: item.name } }"
-          @click="() => handleClick(item)"
+          :to="{ path: `/${cur.name}/${item.name}` }"
         >
           {{ item.name }}
         </nuxt-link>
@@ -32,6 +30,7 @@
 </template>
 
 <script>
+// import { mapState } from 'vuex'
 export default {
   name: 'JCategory',
   props: {
@@ -43,15 +42,28 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      cur: {},
+      tag: [],
+    }
   },
-  computed: {
-    tag() {
-      return this.category[0]
+  // computed: {
+  //   ...mapState({
+  //     tag: (state) => state.curCategory?.tag ?? state?.category[0]?.tag ?? [],
+  //   }),
+  // },
+  watch: {
+    '$route.params.category': {
+      handler(v) {
+        console.error(v)
+        console.error(this.category)
+        if (!v) return
+        this.cur = this.category.filter((i) => i.name === v)[0]
+        console.error(this.cur)
+        this.tag = this.cur ? this.cur.tag : []
+      },
+      immediate: true,
     },
-  },
-  methods: {
-    handleClick(item) {},
   },
 }
 </script>
@@ -75,6 +87,7 @@ export default {
     }
   }
   .tags-wrapper {
+    background-color: #f4f5f5 !important;
     .tags {
       margin: 0 auto;
       width: 100%;

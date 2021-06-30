@@ -7,6 +7,7 @@ export const state = () => ({
   uinfo: {},
   dict: {},
   category: [],
+  curCategory: {},
 })
 export const mutations = {
   LOGOUT(state) {
@@ -35,6 +36,9 @@ export const mutations = {
   CLOSE_AD(state, id) {
     const idx = state.dict.ad.findIndex((item) => item.id === id)[0]
     state.dict.ad.splice(idx, 1)
+  },
+  SET_CUR_CATEGORY(state, item) {
+    state.curCategory = item
   },
 }
 export const actions = {

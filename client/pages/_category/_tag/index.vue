@@ -1,6 +1,5 @@
 <template>
   <div class="home-wrapper">
-    <j-category :category="category"></j-category>
     <div class="home">
       <div class="article-list">
         <div v-for="(item, index) of article.list" :key="index" class="article">
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { getArticles } from '@/api/article'
 import { format } from '@/utils'
 export default {
@@ -57,11 +55,6 @@ export default {
     } catch (error) {
       console.error(error)
     }
-  },
-  computed: {
-    ...mapState({
-      category: (state) => state.dict.category || [],
-    }),
   },
   methods: {
     format,

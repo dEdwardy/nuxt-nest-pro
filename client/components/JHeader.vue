@@ -207,11 +207,10 @@ export default {
     }),
   },
   mounted() {
-    console.error(this.uinfo)
+    console.error(this.$route)
   },
   methods: {
     getPopupContainer(node) {
-      console.error(node)
       return node.parentNode
     },
     onClick({ key }) {
