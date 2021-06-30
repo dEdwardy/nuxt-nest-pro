@@ -3,36 +3,38 @@
     <div class="home">
       <div class="article-list">
         <div v-for="(item, index) of article.list" :key="index" class="article">
-          <nuxt-link
-            :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
-            target="_blank"
-          >
-            <div class="infos">
-              <div class="author">
-                {{ item.author.username }}
-              </div>
-              <div class="created">| {{ format(item.created) }}</div>
-              <div class="tag">
-                | {{ item.tag.map((i) => i.name).join(' ') }}
-              </div>
-            </div>
-            <div class="main-content">
-              <div class="left">
-                <div class="title">
-                  {{ item.title }}
+          <a-skeleton :loading="loading">
+            <nuxt-link
+              :to="{ path: `/post/${item.id}`, params: { id: item.id } }"
+              target="_blank"
+            >
+              <div class="infos">
+                <div class="author">
+                  {{ item.author.username }}
                 </div>
-                <div class="desc">
-                  {{ item.brief_content }}
+                <div class="created">| {{ format(item.created) }}</div>
+                <div class="tag">
+                  | {{ item.tag.map((i) => i.name).join(' ') }}
                 </div>
               </div>
-              <div class="right">
-                <img
-                  src="https://edw4rd.cn/assets/avatar.jpg"
-                  class="article-bg"
-                />
+              <div class="main-content">
+                <div class="left">
+                  <div class="title">
+                    {{ item.title }}
+                  </div>
+                  <div class="desc">
+                    {{ item.brief_content }}
+                  </div>
+                </div>
+                <div class="right">
+                  <img
+                    src="https://edw4rd.cn/assets/avatar.jpg"
+                    class="article-bg"
+                  />
+                </div>
               </div>
-            </div>
-          </nuxt-link>
+            </nuxt-link>
+          </a-skeleton>
         </div>
       </div>
       <aside class="aside">
@@ -46,14 +48,30 @@
 import { getArticles } from '@/api/article'
 import { format } from '@/utils'
 export default {
-  async asyncData() {
+  async asyncData({ params, store }) {
     try {
-      const { data } = await getArticles()
+      console.error(store.state, params)
+      const cur = store.state.dict.category.filter(
+        (item) => item.name === params.category
+      )[0]
+      const category = cur.id
+      const tag = cur.tag.filter((i) => i.name === params.tag)[0].id
+      const { data } = await getArticles({ category, tag: [tag] })
       return {
         article: data,
+        loading: false,
       }
     } catch (error) {
       console.error(error)
+    }
+  },
+  data() {
+    return {
+      article: {
+        list: [],
+        totoal: 0,
+      },
+      loading: true,
     }
   },
   methods: {

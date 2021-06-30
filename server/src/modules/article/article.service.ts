@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Console } from 'console'
 import { ArticleState } from 'server/src/core/interfaces/enums/article-state.enum'
-import { In, Repository } from 'typeorm'
+import { In,Any, Repository } from 'typeorm'
 import { TagService } from '../tag/tag.service'
 import { ArticleDto, QueryDto, SortEnum } from './article.dto'
 import { Article } from './article.entity'
@@ -45,43 +45,43 @@ export class ArticleService {
       return this.articleRepository.save(data)
     }
   }
-  queryAndCount(
-    queryDto: QueryDto = {
-      sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },
-    }
-  ) {
-    const {
-      sortBy: { sortKey, sortValue },
-      category,
-      query,
-    } = queryDto
-    console.log(sortKey, sortValue, category, query)
-    return category
-      ? this.articleRepository.findAndCount({
-          relations: ['tag', 'category', 'author'],
-          where: { category: { id: category } },
-          order: { [sortKey]: sortValue },
-        })
-      : this.articleRepository.findAndCount({
-          relations: ['tag', 'category', 'author'],
-          order: { [sortKey]: sortValue },
-        })
-  }
-  async getAllAndCount(options) {
-    const { query, category, tags, limit = 10, page = 1 } = options
-    console.log(query, category, tags, limit, page)
+  // queryAndCount(
+  //   queryDto: QueryDto = {
+  //     sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },
+  //   }
+  // ) {
+  //   const {
+  //     sortBy: { sortKey, sortValue },
+  //     category,
+  //     query,
+  //   } = queryDto
+  //   console.log(sortKey, sortValue, category, query)
+  //   return category
+  //     ? this.articleRepository.findAndCount({
+  //         relations: ['tag', 'category', 'author'],
+  //         where: { category: { id: category } },
+  //         order: { [sortKey]: sortValue },
+  //       })
+  //     : this.articleRepository.findAndCount({
+  //         relations: ['tag', 'category', 'author'],
+  //         order: { [sortKey]: sortValue },
+  //       })
+  // }
+  async queryAndCount(options) {
+    const { query, category, tag, limit = 10, page = 1 } = options
+    console.log(query, category, tag, limit, page)
     const queryBuilder = await this.articleRepository.createQueryBuilder(
       'article'
     )
+    queryBuilder.leftJoinAndSelect('article.category', 'category')
+    queryBuilder.leftJoinAndSelect('article.tag', 'tag')
     queryBuilder.leftJoinAndSelect('article.author', 'user')
-    // queryBuilder.leftJoinAndSelect('article.category', 'category')
-    // queryBuilder.leftJoinAndSelect('article.tag', 'tag')
-    // if (category) {
-    //   queryBuilder.where('category.alias IN (:...category)', { category })
-    // }
-    // if (tag) {
-    //   queryBuilder.andWhere('tag.alias IN (:...tag)', { tag })
-    // }
+    if (category) {
+      queryBuilder.where('category.id = :category', { category })
+    }
+    if (tag) {
+      queryBuilder.andWhere('tag.id In (:...tag)', { tag })
+    }
     if (query) {
       queryBuilder.andWhere('article.content like :query', { query })
     }
@@ -89,8 +89,7 @@ export class ArticleService {
     queryBuilder.orderBy({
       'article.created': 'DESC',
     })
-    const entities = await queryBuilder.getManyAndCount()
-    return { list: entities[0], total: entities[1] }
+    return await queryBuilder.getManyAndCount()
   }
   getOneById(id: string) {
     return this.articleRepository.findOne(id, {

@@ -35,20 +35,31 @@ export class ArticleController {
   @Post('test')
   @HttpCode(HttpStatus.OK)
   async getAll(@Body() options) {
-    return this.articleService.getAllAndCount(options)
+    return this.articleService.queryAndCount(options)
   }
 
   @Post()
   @HttpCode(HttpStatus.OK)
   async getAllAndCount(@Body() options:QueryDto){
-    if(!options?.sortBy?.sortKey){
-      options = { sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },category:options?.category }
-    }
+    // if(!options?.sortBy?.sortKey){
+    //   options = { sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },category:options?.category }
+    // }
     const [list,total] = await this.articleService.queryAndCount(options)
     return {
       list,
       total
     }
   }
-
+  @Post('t')
+  @HttpCode(HttpStatus.OK)
+  async getAllAndCount2(@Body() options:QueryDto){
+    // if(!options?.sortBy?.sortKey){
+    //   options = { sortBy: { sortKey: 'created', sortValue: SortEnum.DESC },category:options?.category }
+    // }
+    const [list,total] = await this.articleService.queryAndCount(options)
+    return {
+      list,
+      total
+    }
+  }
 }
