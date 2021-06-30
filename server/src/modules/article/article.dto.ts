@@ -21,6 +21,6 @@ interface SortBy<sortKey = 'created', sortValue = SortEnum.DESC> {
 }
 export class QueryDto {
   sortBy?: SortBy
-  category?: string[]
+  category?: string
   query?: string
 }
