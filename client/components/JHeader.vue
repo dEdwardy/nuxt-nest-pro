@@ -1,5 +1,5 @@
 <template>
-  <header class="j-header-wrapper">
+  <header :class="hideHeader ? 'j-header-wrapper top' : 'j-header-wrapper'">
     <div class="j-header">
       <a class="img-wrapper" href="/">
         <img
@@ -171,6 +171,7 @@
 </template>
 
 <script>
+import { throttle } from 'lodash-es'
 import { mapState } from 'vuex'
 import dragVerify from 'vue-drag-verify2'
 export default {
@@ -186,6 +187,7 @@ export default {
   },
   data() {
     return {
+      hideHeader: false,
       focus: false,
       searchVal: '',
       loginVisible: false,
@@ -207,9 +209,22 @@ export default {
     }),
   },
   mounted() {
-    console.error(this.$route)
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
+    handleScroll: throttle(function () {
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop
+      if (scrollTop > 400) {
+        console.log('top')
+        if (!this.hideHeader) this.hideHeader = true
+      } else {
+        this.hideHeader = false
+      }
+    }),
     getPopupContainer(node) {
       return node.parentNode
     },
@@ -297,6 +312,11 @@ export default {
   top: 0;
   left: 0;
   right: 0;
+  transition: all 0.2s;
+  transform: translateZ(0);
+  &.top {
+    transform: translate3d(0, -61px, 0);
+  }
   .search-panel {
     width: 400px;
     .inner {

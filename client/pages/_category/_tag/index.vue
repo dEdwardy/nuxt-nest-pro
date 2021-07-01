@@ -12,9 +12,11 @@
                 <div class="author">
                   {{ item.author.username }}
                 </div>
-                <div class="created">| {{ format(item.created) }}</div>
+                <div>|</div>
+                <div class="created">{{ format(item.created) }}</div>
+                <div>|</div>
                 <div class="tag">
-                  | {{ item.tag.map((i) => i.name).join(' ') }}
+                  {{ item.tag.map((i) => i.name).join(' ') }}
                 </div>
               </div>
               <div class="main-content">
@@ -118,12 +120,13 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             word-break: break-all;
+            padding-right: 8px;
           }
           .created {
-            margin: 0 2px;
+            padding: 0 8px;
           }
           .tag {
-            margin: 0 2px;
+            padding: 0 8px;
           }
         }
         .main-content {

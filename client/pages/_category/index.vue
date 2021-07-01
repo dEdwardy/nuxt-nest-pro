@@ -13,9 +13,11 @@
                 <div class="author">
                   {{ item.author.username }}
                 </div>
-                <div class="created">| {{ format(item.created) }}</div>
+                <div class="seperator">|</div>
+                <div class="created">{{ format(item.created) }}</div>
+                <div class="seperator">|</div>
                 <div class="tag">
-                  | {{ item.tag.map((i) => i.name).join(' ') }}
+                  {{ item.tag.map((i) => i.name).join(' ') }}
                 </div>
               </div>
               <div class="main-content">
@@ -111,6 +113,7 @@ export default {
           line-height: 22px;
           color: #4e5969;
           .author {
+            padding-right: 8px;
             max-width: 162px;
             white-space: nowrap;
             overflow: hidden;
@@ -118,10 +121,10 @@ export default {
             word-break: break-all;
           }
           .created {
-            margin: 0 2px;
+            padding: 0 8px;
           }
           .tag {
-            margin: 0 2px;
+            padding: 0 8px;
           }
         }
         .main-content {

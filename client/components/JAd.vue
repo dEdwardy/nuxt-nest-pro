@@ -28,6 +28,22 @@ export default {
       ad: (state) => state?.dict?.ad ?? [],
     }),
   },
+  watch: {
+    'ad.length'(v) {
+      if (v === 0) {
+        window.removeEventListener('scroll', this.handleScroll)
+        const el = this.$refs['j-ad']
+        this.io.unobserve(el)
+        this.io.disconnect()
+        this.io = null
+      } else if (this.io === null) {
+        window.addEventListener('scroll', this.handleScroll)
+        this.io = new IntersectionObserver(this.handleObserva)
+        const el = this.$refs['j-ad']
+        this.io.observe(el)
+      }
+    },
+  },
   mounted() {
     if (!this.ad || this.ad.length === 0) return
     window.addEventListener('scroll', this.handleScroll)

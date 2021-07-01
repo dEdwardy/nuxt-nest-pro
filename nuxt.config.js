@@ -76,31 +76,31 @@ const config = () => ({
     // '@nuxtjs/axios',
     ['@nuxtjs/dotenv', { filename: '../.env' }],
     'nuxt-winston-log',
-    // 'nuxt-ssr-cache',
+    'nuxt-ssr-cache',
   ],
-  // cache: {
-  //   useHostPrefix: false,
-  //   store: {
-  //     type: 'memory',
-  //     // type: 'redis',
-  //     // host: '47.112.172.255',
-  //     // port: 6380,
-  //     // auth_pass: 'Onelovealive0*',
-  //     // db: 2,
-  //     ttl: 10 * 60,
-  //     // configure: [
-  //     //   ['maxmemory', '200mb'],
-  //     //   ['maxmemory-policy', 'allkeys-lru'],
-  //     // ],
-  //   },
-  //   pages: [
-  //     '/',
-  //     // '/index',
-  //     // '/_category/index',
-  //     // '/_category/_tag/index',
-  //     // '/post/_id',
-  //   ],
-  // },
+  cache: {
+    useHostPrefix: false,
+    store: {
+      type: 'memory',
+      // type: 'redis',
+      // host: '47.112.172.255',
+      // port: 6380,
+      // auth_pass: 'Onelovealive0*',
+      // db: 2,
+      ttl: 10 * 60,
+      // configure: [
+      //   ['maxmemory', '200mb'],
+      //   ['maxmemory-policy', 'allkeys-lru'],
+      // ],
+    },
+    pages: [
+      '/',
+      // '/index',
+      // '/_category/index',
+      // '/_category/_tag/index',
+      // '/post/_id',
+    ],
+  },
   // axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
