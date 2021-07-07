@@ -32,7 +32,7 @@
           <li style="padding: 0">
             <ul class="search-panel flex">
               <li class="inner" style="width: 100%">
-                <el-input
+                <!-- <el-input
                   v-model="searchVal"
                   size="small"
                   style="width: 100%"
@@ -46,7 +46,15 @@
                     icon="el-icon-search"
                     @click.stop="handleSearch"
                   ></el-button>
-                </el-input>
+                </el-input> -->
+                <a-input-search
+                  v-model="searchVal"
+                  placeholder="探索"
+                  style="width: 100%; transition: all 0.2s"
+                  @search="handleSearch"
+                  @focus="handleFocus"
+                  @blur="handleBlur"
+                />
               </li>
               <li v-if="!focus" style="min-width: 102px">创作者中心</li>
               <li v-if="!focus" style="min-width: 74px">写文章</li>
@@ -318,6 +326,7 @@ export default {
     transform: translate3d(0, -61px, 0);
   }
   .search-panel {
+    transition: all 1s;
     width: 400px;
     .inner {
       transition: all 0.3 ease-in-out;
