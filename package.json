@@ -13,9 +13,16 @@
     "start:csr": "node .nuxt-csr/server",
     "start:pm2": "pm2 start ./node_modules/nuxt/bin/nuxt.js -i max",
     "start:back": "nest start -w",
+    "start:back:prod": "nest start -w",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
+  },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "post": 4002
+    }
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",

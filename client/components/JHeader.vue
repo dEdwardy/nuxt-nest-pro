@@ -31,33 +31,24 @@
           </li>
           <li style="padding: 0">
             <ul class="search-panel flex">
-              <li class="inner" style="width: 100%">
-                <!-- <el-input
-                  v-model="searchVal"
-                  size="small"
-                  style="width: 100%"
-                  placeholder="探索"
-                  class="input-with-select"
-                  @focus="handleFocus"
-                  @blur="handleBlur"
-                >
-                  <el-button
-                    slot="append"
-                    icon="el-icon-search"
-                    @click.stop="handleSearch"
-                  ></el-button>
-                </el-input> -->
+              <li
+                class="inner"
+                :style="{
+                  width: focus ? '400px !important' : '224px',
+                  transition: 'all .3s',
+                }"
+              >
                 <a-input-search
                   v-model="searchVal"
                   placeholder="探索"
-                  style="width: 100%; transition: all 0.2s"
+                  style="width: 100%; transition: all 0.3s"
                   @search="handleSearch"
                   @focus="handleFocus"
                   @blur="handleBlur"
                 />
               </li>
-              <li v-if="!focus" style="min-width: 102px">创作者中心</li>
-              <li v-if="!focus" style="min-width: 74px">写文章</li>
+              <li style="white-space: nowrap">创作者中心</li>
+              <li style="white-space: nowrap">写文章</li>
             </ul>
           </li>
           <!-- <li v-if="uinfo && uinfo.username" class="avatar-wrapper"> -->
@@ -326,6 +317,8 @@ export default {
     transform: translate3d(0, -61px, 0);
   }
   .search-panel {
+    float: left;
+    overflow: hidden;
     transition: all 1s;
     width: 400px;
     .inner {

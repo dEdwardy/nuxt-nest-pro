@@ -28,8 +28,8 @@ async function bootstrap () {
     credentials:false
   });
   app.use(compression())
-  await app.listen(3000);
-  // return app.getHttpAdapter().getInstance()
+  await app.listen(4001);
+  return app.getHttpAdapter().getInstance()
 }
-bootstrap();
+// bootstrap();
 export default bootstrap;

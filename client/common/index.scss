@@ -58,7 +58,7 @@
 }
 a {
   color: #71777c !important;
-  &.active-route {
+  &.nuxt-link-exact-active.active-route {
     color: #1890ff !important;
   }
 }

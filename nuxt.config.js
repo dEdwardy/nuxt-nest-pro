@@ -1,8 +1,8 @@
 import { resolve } from 'path'
-// import bootstrap from './.nest/main.js'
+import bootstrap from './.nest/main.js'
 // const isDev = process.env.NODE_ENV === 'development'
 
-const config = () => ({
+const config = async () => ({
   srcDir: 'client/',
   buildDir: process.env.NUXT_ENV === 'ssr' ? '.nuxt-ssr' : '.nuxt-csr',
   ssr: process.env.NUXT_ENV === 'ssr',
@@ -10,7 +10,7 @@ const config = () => ({
     '@': resolve(__dirname, './client'),
   },
   server: {
-    port: 8999,
+    port: 4002,
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -26,10 +26,10 @@ const config = () => ({
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  // serverMiddleware:
-  //   process.env.NUXT_ENV === 'ssr'
-  //     ? [{ path: '/api', handler: await bootstrap() }]
-  //     : [],
+  serverMiddleware:
+    process.env.NUXT_ENV === 'ssr'
+      ? [{ path: '/api', handler: await bootstrap() }]
+      : [],
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/common/index.scss',
