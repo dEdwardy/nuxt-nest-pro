@@ -31,5 +31,5 @@ async function bootstrap () {
   await app.listen(4001);
   return app.getHttpAdapter().getInstance()
 }
-// bootstrap();
+bootstrap();
 export default bootstrap;

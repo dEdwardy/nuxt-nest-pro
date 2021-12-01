@@ -33,7 +33,7 @@ import { AdModule } from './modules/ad/ad.module';
       password: process.env.PASSWORD,
       database: process.env.MYSQL_DB_NAME,
       entities: ['.nest/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
       debug: false,
     }),
     //定时任务
